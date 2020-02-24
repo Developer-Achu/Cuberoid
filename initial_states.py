@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from CubeRotations import rotate_cube
+from cube_rotations import perform_cube_operations
 
 random.seed(183890)
 
@@ -35,21 +35,9 @@ def generate_solved_cube_matrix(n):
 n = 3
 total_states = 1
 
-if n == 2:
-    cube_slices_list = list(range(1, 3))
-elif n == 3:
-    cube_slices_list = list(range(1, 4))
-elif n == 4:
-    cube_slices_list = list(range(1, 5))
-elif n == 5:
-    cube_slices_list = list(range(1, 6))
-else:
-    cube_slices_list = []
-    print("Invalid cube dimension")
-    exit(0)
-
+cube_slices_list = list(range(1, (n + 1)))
 axes_list = ['x', 'y', 'z']
-rotations_list = [90, 180, 270]
+rotations_list = [1, 2, 3]
 sides = generate_solved_cube_matrix(n)
 
 for state in range(total_states):
@@ -59,4 +47,4 @@ for state in range(total_states):
         cube_slice = random.choice(cube_slices_list)
         axis = random.choice(axes_list)
         rotation = random.choice(rotations_list)
-        rotate_cube(sides, cube_slice, axis, rotation)
+        perform_cube_operations(n, sides, cube_slice, axis, rotation)

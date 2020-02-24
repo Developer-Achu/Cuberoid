@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b73ef301-0d2f-4207-8d72-53a3341bf312" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/CubeMappingDictionary.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cube_constants.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cube_mapping_dictionary.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cube_rotations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CubeRotations.py" beforeDir="false" afterPath="$PROJECT_DIR$/CubeRotations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InitialStates.py" beforeDir="false" afterPath="$PROJECT_DIR$/InitialStates.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CubeMappingDictionary.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CubeRotations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cuberoid.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuberoid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InitialStates.py" beforeDir="false" afterPath="$PROJECT_DIR$/initial_states.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +37,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RunManager" selected="Python.InitialStates">
-    <configuration name="CubeRotations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.initial_states">
+    <configuration name="cube_rotations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -46,7 +50,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CubeRotations.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cube_rotations.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -55,7 +59,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="InitialStates" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="initial_states" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -67,7 +71,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/InitialStates.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/initial_states.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -78,8 +82,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.InitialStates" />
-        <item itemvalue="Python.CubeRotations" />
+        <item itemvalue="Python.initial_states" />
+        <item itemvalue="Python.cube_rotations" />
       </list>
     </recent_temporary>
   </component>
@@ -87,41 +91,45 @@
     <configuration />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1874" height="666" key="GridCell.Tab.0.bottom" timestamp="1582286333773">
+    <state width="1897" height="475" key="GridCell.Tab.0.bottom" timestamp="1582539790359">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="666" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582286333773" />
-    <state width="1874" height="666" key="GridCell.Tab.0.center" timestamp="1582286333772">
+    <state width="1897" height="475" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790359" />
+    <state width="1897" height="475" key="GridCell.Tab.0.center" timestamp="1582539790357">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="666" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582286333772" />
-    <state width="1874" height="666" key="GridCell.Tab.0.left" timestamp="1582286333771">
+    <state width="1897" height="475" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790357" />
+    <state width="1897" height="475" key="GridCell.Tab.0.left" timestamp="1582539790357">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="666" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582286333771" />
-    <state width="1874" height="666" key="GridCell.Tab.0.right" timestamp="1582286333773">
+    <state width="1897" height="475" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790357" />
+    <state width="1897" height="475" key="GridCell.Tab.0.right" timestamp="1582539790358">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="666" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582286333773" />
-    <state width="1874" height="355" key="GridCell.Tab.1.bottom" timestamp="1582277896484">
+    <state width="1897" height="475" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790358" />
+    <state width="1874" height="355" key="GridCell.Tab.1.bottom" timestamp="1582374912227">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="355" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582277896484" />
-    <state width="1874" height="355" key="GridCell.Tab.1.center" timestamp="1582277896483">
+    <state width="1874" height="355" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582374912227" />
+    <state width="1874" height="355" key="GridCell.Tab.1.center" timestamp="1582374912226">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="355" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582277896483" />
-    <state width="1874" height="355" key="GridCell.Tab.1.left" timestamp="1582277896483">
+    <state width="1874" height="355" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582374912226" />
+    <state width="1874" height="355" key="GridCell.Tab.1.left" timestamp="1582374912225">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="355" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582277896483" />
-    <state width="1874" height="355" key="GridCell.Tab.1.right" timestamp="1582277896483">
+    <state width="1874" height="355" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582374912225" />
+    <state width="1874" height="355" key="GridCell.Tab.1.right" timestamp="1582374912227">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1874" height="355" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582277896483" />
+    <state width="1874" height="355" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582374912227" />
     <state x="624" y="253" key="run.anything.popup" timestamp="1582191995212">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="624" y="253" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582191995212" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582387184614">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582387184614" />
   </component>
 </project>
