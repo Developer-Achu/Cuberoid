@@ -44,21 +44,11 @@ axes_list = ['x', 'y', 'z']
 rotations_list = [1, 2, 3]
 sides = generate_solved_cube_matrix(n)
 
-# for state in range(total_states):
-#     # scramble_size = random.randint(1, 100)
-#     scramble_size = 1
-#     for scramble in range(scramble_size):
-#         cube_slice = random.choice(cube_slices_list)
-#         axis = random.choice(axes_list)
-#         rotation = random.choice(rotations_list)
-#         perform_cube_operations(n, sides, cube_slice, axis, rotation)
-
-sample = np.array([
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9]
-])
-
-sample2 = sample[0:1, :]
-print(sample2)
-print(sample)
+for state in range(total_states):
+    # scramble_size = random.randint(1, 100)
+    scramble_size = 5
+    for scramble in range(scramble_size):
+        cube_slice = random.choice(cube_slices_list)
+        axis = random.choice(axes_list)
+        rotation = random.choice(rotations_list)
+        perform_cube_operations(n, sides, cube_slice, axis, rotation)

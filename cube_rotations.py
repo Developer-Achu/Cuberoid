@@ -25,21 +25,21 @@ def split_data(n, moving_side, cube_slice, is_all):
         return moving_side[0] * cube_slice, moving_side[1]
 
 
-def get_side_slice(is_row, _slice, sides, key):
+def get_side_slice(is_row, _slice, side):
     if is_row:
         if _slice > 0:
-            side_slice = sides[key][(_slice - 1):_slice, :]
+            side_slice = side[(_slice - 1):_slice, :]
         elif _slice < -1:
-            side_slice = sides[key][_slice:(_slice + 1), :]
+            side_slice = side[_slice:(_slice + 1), :]
         else:
-            side_slice = sides[key][-1:, :]
+            side_slice = side[-1:, :]
     else:
         if _slice > 0:
-            side_slice = sides[key][:, (_slice - 1):_slice]
+            side_slice = side[:, (_slice - 1):_slice]
         elif _slice < -1:
-            side_slice = sides[key][:, _slice:(_slice + 1)]
+            side_slice = side[:, _slice:(_slice + 1)]
         else:
-            side_slice = sides[key][:, -1:]
+            side_slice = side[:, -1:]
 
     return side_slice
 
@@ -62,23 +62,35 @@ def insert_side_slice(sides, inserting_slice, inserting_is_row, side_slice, to_s
 
 
 def move_colors(n, sides, moving_sides, cube_slice, rotation):
-    is_first_key = True
-    first_key = 0
+    for i in range(rotation):
+        is_first_key = True
+        first_key = 0
+        first_side = np.zeros((n, n))
 
-    for key in moving_sides.keys():
-        moving_side = moving_sides[key]
-        if is_first_key:
-            is_first_key = False
-            first_key = key
-        else:
-            _slice, is_row, take_transpose, do_flip, to_side = split_data(n, moving_side, cube_slice, True)
-            side_slice = get_side_slice(is_row, _slice, sides, key)
-            if take_transpose:
-                side_slice = side_slice.T
-            if do_flip:
-                side_slice = np.flip(side_slice)
-            inserting_slice, inserting_is_row = split_data(n, moving_sides[to_side], cube_slice, False)
-            insert_side_slice(sides, inserting_slice, inserting_is_row, side_slice, to_side)
+        for key in moving_sides.keys():
+            moving_side = moving_sides[key]
+            if is_first_key:
+                is_first_key = False
+                first_key = key
+                first_side = np.copy(sides[key])
+            else:
+                _slice, is_row, take_transpose, do_flip, to_side = split_data(n, moving_side, cube_slice, True)
+                side_slice = get_side_slice(is_row, _slice, sides[key])
+                if take_transpose:
+                    side_slice = side_slice.T
+                if do_flip:
+                    side_slice = np.flip(side_slice)
+                inserting_slice, inserting_is_row = split_data(n, moving_sides[to_side], cube_slice, False)
+                insert_side_slice(sides, inserting_slice, inserting_is_row, side_slice, to_side)
+
+        _slice, is_row, take_transpose, do_flip, to_side = split_data(n, moving_sides[first_key], cube_slice, True)
+        side_slice = get_side_slice(is_row, _slice, first_side)
+        if take_transpose:
+            side_slice = side_slice.T
+        if do_flip:
+            side_slice = np.flip(side_slice)
+        inserting_slice, inserting_is_row = split_data(n, moving_sides[to_side], cube_slice, False)
+        insert_side_slice(sides, inserting_slice, inserting_is_row, side_slice, to_side)
 
 
 def perform_cube_operations(n, sides, cube_slice, axis, rotation):
@@ -94,8 +106,7 @@ def perform_cube_operations(n, sides, cube_slice, axis, rotation):
         rotating_side = None
 
     if rotating_side is not None:
-        pass
-        # rotate_side(sides, rotating_side, rotation, is_clockwise)
+        rotate_side(sides, rotating_side, rotation, is_clockwise)
 
     moving_sides = cube_map[constants.moving_sides]
     move_colors(n, sides, moving_sides, cube_slice, rotation)
