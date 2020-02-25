@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b73ef301-0d2f-4207-8d72-53a3341bf312" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cube_constants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cube_mapping_dictionary.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cube_rotations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CubeMappingDictionary.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CubeRotations.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cuberoid.py" beforeDir="false" afterPath="$PROJECT_DIR$/cuberoid.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/InitialStates.py" beforeDir="false" afterPath="$PROJECT_DIR$/initial_states.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cube_mapping_dictionary.py" beforeDir="false" afterPath="$PROJECT_DIR$/cube_mapping_dictionary.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cube_rotations.py" beforeDir="false" afterPath="$PROJECT_DIR$/cube_rotations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/initial_states.py" beforeDir="false" afterPath="$PROJECT_DIR$/initial_states.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,22 +87,22 @@
     <configuration />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1897" height="475" key="GridCell.Tab.0.bottom" timestamp="1582539790359">
+    <state width="1897" height="421" key="GridCell.Tab.0.bottom" timestamp="1582633537337">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="475" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790359" />
-    <state width="1897" height="475" key="GridCell.Tab.0.center" timestamp="1582539790357">
+    <state width="1897" height="421" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582633537337" />
+    <state width="1897" height="421" key="GridCell.Tab.0.center" timestamp="1582633537335">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="475" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790357" />
-    <state width="1897" height="475" key="GridCell.Tab.0.left" timestamp="1582539790357">
+    <state width="1897" height="421" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582633537335" />
+    <state width="1897" height="421" key="GridCell.Tab.0.left" timestamp="1582633537334">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="475" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790357" />
-    <state width="1897" height="475" key="GridCell.Tab.0.right" timestamp="1582539790358">
+    <state width="1897" height="421" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582633537334" />
+    <state width="1897" height="421" key="GridCell.Tab.0.right" timestamp="1582633537337">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="475" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582539790358" />
+    <state width="1897" height="421" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582633537337" />
     <state width="1874" height="355" key="GridCell.Tab.1.bottom" timestamp="1582374912227">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>

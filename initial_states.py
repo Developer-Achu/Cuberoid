@@ -9,9 +9,9 @@ random.seed(183890)
 
 def get_side_matrix(color, n):
     entire_side = []
-    for i in range(n):
+    for i in range(1, n + 1):
         row = []
-        for j in range(n):
+        for j in range(1, n + 1):
             row.append(color)
         entire_side.append(row)
     return np.array(entire_side)
@@ -19,9 +19,9 @@ def get_side_matrix(color, n):
 
 def generate_solved_cube_matrix(n):
     generated_sides = {}
-    color_list = ['w', 'r', 'g', 'o', 'b', 'y']
+    color_list = list(range(1, 7))
     for index, color in enumerate(color_list):
-        generated_sides.update({index: get_side_matrix(color, n)})
+        generated_sides.update({index + 1: get_side_matrix(color, n)})
     return generated_sides
 
 
@@ -35,16 +35,30 @@ def generate_solved_cube_matrix(n):
 n = 3
 total_states = 1
 
+'''
+    Note: slice and rotation starts from 1
+    sides are counted from 0
+'''
 cube_slices_list = list(range(1, (n + 1)))
 axes_list = ['x', 'y', 'z']
 rotations_list = [1, 2, 3]
 sides = generate_solved_cube_matrix(n)
 
-for state in range(total_states):
-    # scramble_size = random.randint(1, 100)
-    scramble_size = 1
-    for scramble in range(scramble_size):
-        cube_slice = random.choice(cube_slices_list)
-        axis = random.choice(axes_list)
-        rotation = random.choice(rotations_list)
-        perform_cube_operations(n, sides, cube_slice, axis, rotation)
+# for state in range(total_states):
+#     # scramble_size = random.randint(1, 100)
+#     scramble_size = 1
+#     for scramble in range(scramble_size):
+#         cube_slice = random.choice(cube_slices_list)
+#         axis = random.choice(axes_list)
+#         rotation = random.choice(rotations_list)
+#         perform_cube_operations(n, sides, cube_slice, axis, rotation)
+
+sample = np.array([
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+])
+
+sample2 = sample[0:1, :]
+print(sample2)
+print(sample)
