@@ -1,7 +1,7 @@
 import numpy as np
 
-import cube_constants as constants
-from cube_mapping_dictionary import cube_mapping_dictionary
+import CubeConstants as constants
+from CubeMappingDictionary import cube_mapping_dictionary
 
 
 def rotate_side(sides, rotating_side, rotation, is_clockwise):
