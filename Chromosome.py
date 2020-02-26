@@ -1,3 +1,7 @@
+import copy
+
+import numpy as np
+
 from CubeRotations import perform_cube_operations
 from DefineStates import *
 
@@ -9,29 +13,36 @@ class Chromosome:
         self.n = _n
         self.chromosome_length = _length
         self.define_states = DefineStates(_n)
-        self.genes = []
+        self.genes = np.empty(_length, dtype=tuple)
 
         for i in range(self.chromosome_length):
             cube_slice, axis, rotation = self.define_states.get_a_state_change()
-            self.genes.append((cube_slice, axis, rotation))
+            self.genes[i] = (cube_slice, axis, rotation)
 
     def compute_fitness(self):
-        sides = self.sides.copy()
+        sides = copy.deepcopy(self.sides)
         for gene in self.genes:
             cube_slice = gene[0]
             axis = gene[1]
             rotation = gene[2]
             perform_cube_operations(self.n, sides, cube_slice, axis, rotation)
-        print(self.sides)
+
+        for key in sides.keys():
+            count_dict = dict(zip(*np.unique(sides[key], return_counts=True)))
+            try:
+                count = count_dict[key]
+            except:
+                count = 0
+            self.fitness += ((self.n ** 2) - count)
 
     def get_fitness(self):
         return self.fitness
 
-    def copy(self):
+    def get_chromosome_copy(self):
         chromosome = Chromosome(self.sides, self.chromosome_length, self.n)
-        chromosome.genes = self.genes.copy()
+        chromosome.genes = np.copy(self.genes)
         chromosome.fitness = self.get_fitness()
         return chromosome
 
     def set_genes(self, genes):
-        self.genes = genes.copy()
+        self.genes = np.copy(genes)
