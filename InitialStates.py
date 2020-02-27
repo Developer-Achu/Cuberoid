@@ -48,8 +48,9 @@ with open(CubeConstants.moves_file_name, "w") as file:
         scramble_size = random.randint(1, max_scramble_size)
         for scramble in range(scramble_size):
             cube_slice, axis, rotation = define_state.get_a_state_change()
-            moves_performed.append((cube_slice, axis, rotation))
-            perform_cube_operations(n, sides, cube_slice, axis, rotation)
+            if cube_slice != 0 and rotation != 0:
+                moves_performed.append((cube_slice, axis, rotation))
+                perform_cube_operations(n, sides, cube_slice, axis, rotation)
         file.write("\nstate: " + str(state))
         file.write("\nmoves: " + str(moves_performed))
         sides_list.append(sides)

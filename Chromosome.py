@@ -25,7 +25,9 @@ class Chromosome:
             cube_slice = gene[0]
             axis = gene[1]
             rotation = gene[2]
-            perform_cube_operations(self.n, sides, cube_slice, axis, rotation)
+
+            if cube_slice != 0 and rotation != 0:
+                perform_cube_operations(self.n, sides, cube_slice, axis, rotation)
 
         for key in sides.keys():
             count_dict = dict(zip(*np.unique(sides[key], return_counts=True)))
