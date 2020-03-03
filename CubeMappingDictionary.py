@@ -1,4 +1,4 @@
-import cube_constants as constants
+import CubeConstants as constants
 
 '''
     for moving sides,

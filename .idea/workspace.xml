@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b73ef301-0d2f-4207-8d72-53a3341bf312" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cube_constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/cube_constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/initial_states.py" beforeDir="false" afterPath="$PROJECT_DIR$/initial_states.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cuberoid.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cuberoid.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,10 +29,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RunManager" selected="Python.initial_states">
-    <configuration name="cube_rotations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.Cuberoid">
+    <configuration name="Chromosome" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -45,7 +45,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cube_rotations.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Chromosome.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -54,7 +54,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="initial_states" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="CubeRotations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -66,7 +66,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/initial_states.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/CubeRotations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Cuberoid" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Cuberoid.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="InitialStates" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/InitialStates.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -77,8 +119,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.initial_states" />
-        <item itemvalue="Python.cube_rotations" />
+        <item itemvalue="Python.Cuberoid" />
+        <item itemvalue="Python.Chromosome" />
+        <item itemvalue="Python.InitialStates" />
+        <item itemvalue="Python.CubeRotations" />
       </list>
     </recent_temporary>
   </component>
@@ -90,45 +134,57 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="663" y="357" width="583" height="390" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1582679329634" />
-    <state width="1897" height="861" key="GridCell.Tab.0.bottom" timestamp="1582680439828">
+    <state width="1897" height="543" key="GridCell.Tab.0.bottom" timestamp="1583229535612">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="861" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582680439828" />
-    <state width="1897" height="861" key="GridCell.Tab.0.center" timestamp="1582680439826">
+    <state width="1897" height="543" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1583229535612" />
+    <state width="1897" height="324" key="GridCell.Tab.0.bottom/0.27.3840.1053@0.27.3840.1053" timestamp="1582732923108" />
+    <state width="1897" height="543" key="GridCell.Tab.0.center" timestamp="1583229535611">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="861" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582680439826" />
-    <state width="1897" height="861" key="GridCell.Tab.0.left" timestamp="1582680439825">
+    <state width="1897" height="543" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1583229535611" />
+    <state width="1897" height="324" key="GridCell.Tab.0.center/0.27.3840.1053@0.27.3840.1053" timestamp="1582732923107" />
+    <state width="1897" height="543" key="GridCell.Tab.0.left" timestamp="1583229535611">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="861" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582680439825" />
-    <state width="1897" height="861" key="GridCell.Tab.0.right" timestamp="1582680439827">
+    <state width="1897" height="543" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1583229535611" />
+    <state width="1897" height="324" key="GridCell.Tab.0.left/0.27.3840.1053@0.27.3840.1053" timestamp="1582732923106" />
+    <state width="1897" height="543" key="GridCell.Tab.0.right" timestamp="1583229535612">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="861" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582680439827" />
-    <state width="1897" height="624" key="GridCell.Tab.1.bottom" timestamp="1582648014324">
+    <state width="1897" height="543" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1583229535612" />
+    <state width="1897" height="324" key="GridCell.Tab.0.right/0.27.3840.1053@0.27.3840.1053" timestamp="1582732923108" />
+    <state width="1897" height="740" key="GridCell.Tab.1.bottom" timestamp="1582801698996">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="624" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582648014324" />
-    <state width="1897" height="624" key="GridCell.Tab.1.center" timestamp="1582648014323">
+    <state width="1897" height="740" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1582801698996" />
+    <state width="1897" height="624" key="GridCell.Tab.1.bottom/0.27.3840.1053@0.27.3840.1053" timestamp="1582730427810" />
+    <state width="1897" height="740" key="GridCell.Tab.1.center" timestamp="1582801698995">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="624" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582648014323" />
-    <state width="1897" height="624" key="GridCell.Tab.1.left" timestamp="1582648014323">
+    <state width="1897" height="740" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1582801698995" />
+    <state width="1897" height="624" key="GridCell.Tab.1.center/0.27.3840.1053@0.27.3840.1053" timestamp="1582730427809" />
+    <state width="1897" height="740" key="GridCell.Tab.1.left" timestamp="1582801698994">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="624" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582648014323" />
-    <state width="1897" height="624" key="GridCell.Tab.1.right" timestamp="1582648014323">
+    <state width="1897" height="740" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1582801698994" />
+    <state width="1897" height="624" key="GridCell.Tab.1.left/0.27.3840.1053@0.27.3840.1053" timestamp="1582730427808" />
+    <state width="1897" height="740" key="GridCell.Tab.1.right" timestamp="1582801698996">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state width="1897" height="624" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582648014323" />
+    <state width="1897" height="740" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1582801698996" />
+    <state width="1897" height="624" key="GridCell.Tab.1.right/0.27.3840.1053@0.27.3840.1053" timestamp="1582730427810" />
+    <state width="960" height="527" key="XDebugger.FullValuePopup" timestamp="1582757773113">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state width="960" height="527" key="XDebugger.FullValuePopup/0.27.1920.1053@0.27.1920.1053" timestamp="1582757773113" />
     <state x="624" y="253" key="run.anything.popup" timestamp="1582191995212">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="624" y="253" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582191995212" />
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582387184614">
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup" timestamp="1582797056737">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582387184614" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1582797056737" />
   </component>
 </project>
