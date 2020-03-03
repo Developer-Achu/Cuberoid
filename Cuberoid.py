@@ -43,9 +43,13 @@ class Cuberoid:
         return [parent_1, parent_2]
 
     def uniform_crossover(self, parent_1, parent_2):
-        pass
+        number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2))
+        random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
 
-    def inversion_mutation(self):
+        child_1_genes = parent_2.genes[random_indices,]
+        child_2_genes = parent_1.genes[random_indices,]
+
+    def inversion_mutation(self, child):
         pass
 
     def update_mating_pool(self):
@@ -81,11 +85,21 @@ class Cuberoid:
 
 
 n = 3
-re_initializations = 10
+# re_initializations = 10
+# chromosome_length = 20
+# population_size = 100
+# mutation_rate = 0.4
+# iterations = 1000
+# slice_change_probability = 0.5
+# axis_change_probability = 0.5
+# rotation_change_probability = 0.5
+
+
+re_initializations = 1
 chromosome_length = 20
-population_size = 100
+population_size = 10
 mutation_rate = 0.4
-iterations = 1000
+iterations = 1
 slice_change_probability = 0.5
 axis_change_probability = 0.5
 rotation_change_probability = 0.5
