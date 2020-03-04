@@ -88,6 +88,10 @@ class Cuberoid:
 
         new_population = np.empty(0, dtype=Chromosome)
 
+        if self.best is not None:
+            new_population = np.append(new_population, self.best)
+            length -= 1
+
         for l in range(length):
             parents = self.random_selection()
             child_1, child_2 = self.uniform_crossover(parents[0], parents[1])
