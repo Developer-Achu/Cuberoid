@@ -1,3 +1,5 @@
+import sys
+
 from Chromosome import *
 from DefineStates import *
 
@@ -43,7 +45,9 @@ class Cuberoid:
             self.best = child.get_chromosome_copy()
             self.all_best_fitness.append(self.best.get_fitness())
             self.iteration_list.append(self.iteration)
-            print("Iteration: ", self.iteration, " Cost: ", self.best.get_fitness())
+            sys.stdout.write(
+                "\r%s%d%s%d%s" % ("Iteration : ", self.iteration, " Cost: ", self.best.get_fitness(), "\n"))
+            sys.stdout.flush()
 
     def random_selection(self):
         parent_1 = self.mating_pool[random.randint(0, self.population_size - 1)]
@@ -60,7 +64,7 @@ class Cuberoid:
         child_1.genes[random_indices] = parent_1.genes[random_indices]
         child_2.genes[random_indices] = parent_2.genes[random_indices]
 
-        return random.choice((child_1, child_2))
+        return child_1, child_2
 
     def inversion_mutation(self, child):
         if random.random() > self.mutation_rate:
@@ -78,13 +82,18 @@ class Cuberoid:
         self.mating_pool = np.copy(self.population)
 
     def create_new_generation(self):
-        new_population = np.empty(self.population_size, dtype=Chromosome)
+        length = int(self.population_size / 2)
+        if self.population_size % 2 != 0:
+            length += 1
 
-        for length in range(self.population_size):
+        new_population = np.empty(0, dtype=Chromosome)
+
+        for l in range(length):
             parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population[length] = child
+            child_1, child_2 = self.uniform_crossover(parents[0], parents[1])
+            self.inversion_mutation(child_1)
+            self.inversion_mutation(child_2)
+            new_population = np.append(new_population, [child_1, child_2])
 
         self.population = np.copy(new_population)
 
@@ -95,11 +104,13 @@ class Cuberoid:
     def solve(self):
         self.iteration = 0
         while self.iteration < self.max_iterations:
+            sys.stdout.write("\r%s%d" % ("Iteration : ", self.iteration))
+            sys.stdout.flush()
             self.genetic_algorithm()
             self.iteration += 1
 
         self.all_best_fitness.append(self.best.get_fitness())
-        print("Population size:", self.population_size)
+        print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
         # print("Best solution moves: ", self.best.genes)
@@ -108,21 +119,27 @@ class Cuberoid:
 
 
 n = 3
-re_initializations = 10
-retry = 10
-chromosome_length = 25
-population_size = 250
-mutation_rate = 0.4
-iterations = 1000
-slice_change_probability = 0.4
-axis_change_probability = 0.4
-rotation_change_probability = 0.4
 
-# re_initializations = 1
+if len(sys.argv) == 10:
+    re_initializations = int(sys.argv[1])
+    retry = int(sys.argv[2])
+    chromosome_length = int(sys.argv[3])
+    population_size = int(sys.argv[4])
+    mutation_rate = float(sys.argv[5])
+    iterations = int(sys.argv[6])
+    slice_change_probability = float(sys.argv[7])
+    axis_change_probability = float(sys.argv[8])
+    rotation_change_probability = float(sys.argv[9])
+else:
+    print("Invalid argument count")
+    exit(0)
+
+# re_initializations = 10
+# retry = 10
 # chromosome_length = 20
-# population_size = 10
+# population_size = 200
 # mutation_rate = 0.4
-# iterations = 1
+# iterations = 1000
 # slice_change_probability = 0.5
 # axis_change_probability = 0.5
 # rotation_change_probability = 0.5
