@@ -12,21 +12,20 @@ class Chromosome:
         self.sides = _sides
         self.n = _n
         self.chromosome_length = _length
-        self.define_states = DefineStates(_n)
         self.genes = np.empty(_length, dtype=tuple)
 
         for i in range(self.chromosome_length):
-            cube_slice, axis, rotation = self.define_states.get_a_state_change()
-            self.genes[i] = (cube_slice, axis, rotation)
+            self.genes[i] = (get_a_state_change())
 
     def compute_fitness(self):
+        self.fitness = 0
         sides = copy.deepcopy(self.sides)
         for gene in self.genes:
-            cube_slice = gene[0]
-            axis = gene[1]
-            rotation = gene[2]
+            cube_slice = get_cube_slice(gene[0], gene[1])
+            axis = get_cube_axis(gene[2], gene[3])
+            rotation = get_cube_rotation(gene[4], gene[5])
 
-            if cube_slice != 0 and rotation != 0:
+            if cube_slice != 0 and axis is not None and rotation != 0:
                 perform_cube_operations(self.n, sides, cube_slice, axis, rotation)
 
         for key in sides.keys():

@@ -26,10 +26,10 @@ def generate_solved_cube_matrix(n):
     return generated_sides
 
 
-if len(sys.argv) == 4:
-    n = int(sys.argv[1])
-    total_states = int(sys.argv[2])
-    max_scramble_size = int(sys.argv[3])
+if len(sys.argv) == 3:
+    # n = int(sys.argv[1])
+    total_states = int(sys.argv[1])
+    max_scramble_size = int(sys.argv[2])
 else:
     print("Invalid argument count")
     exit(0)
@@ -38,17 +38,21 @@ else:
     Note: slice and rotation starts from 1
     sides are counted from 0
 '''
-define_state = DefineStates(n)
 
+n = 3
 sides_list = []
+
 with open(CubeConstants.moves_file_name, "w") as file:
     for state in range(total_states):
         moves_performed = []
         sides = generate_solved_cube_matrix(n)
         scramble_size = random.randint(1, max_scramble_size)
         for scramble in range(scramble_size):
-            cube_slice, axis, rotation = define_state.get_a_state_change()
-            if cube_slice != 0 and rotation != 0:
+            cube_parameters = get_a_state_change()
+            cube_slice = get_cube_slice(cube_parameters[0], cube_parameters[1])
+            axis = get_cube_axis(cube_parameters[2], cube_parameters[3])
+            rotation = get_cube_rotation(cube_parameters[4], cube_parameters[5])
+            if cube_slice != 0 and axis is not None and rotation != 0:
                 moves_performed.append((cube_slice, axis, rotation))
                 perform_cube_operations(n, sides, cube_slice, axis, rotation)
         file.write("\nstate: " + str(state))
