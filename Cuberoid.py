@@ -64,7 +64,7 @@ class Cuberoid:
         child_1.genes[random_indices] = parent_1.genes[random_indices]
         child_2.genes[random_indices] = parent_2.genes[random_indices]
 
-        return child_1, child_2
+        return random.choice((child_1, child_2))
 
     def inversion_mutation(self, child):
         if random.random() > self.mutation_rate:
@@ -82,9 +82,7 @@ class Cuberoid:
         self.mating_pool = np.copy(self.population)
 
     def create_new_generation(self):
-        length = int(self.population_size / 2)
-        if self.population_size % 2 != 0:
-            length += 1
+        length = self.population_size
 
         new_population = np.empty(0, dtype=Chromosome)
 
@@ -92,12 +90,11 @@ class Cuberoid:
             new_population = np.append(new_population, self.best)
             length -= 1
 
-        for l in range(length):
+        for _ in range(length):
             parents = self.random_selection()
-            child_1, child_2 = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child_1)
-            self.inversion_mutation(child_2)
-            new_population = np.append(new_population, [child_1, child_2])
+            child = self.uniform_crossover(parents[0], parents[1])
+            self.inversion_mutation(child)
+            new_population = np.append(new_population, child)
 
         self.population = np.copy(new_population)
 
@@ -159,6 +156,7 @@ for initialization in range(re_initializations):
         print("seed value: " + str(CubeConstants.seed))
         print("retry: " + str(r))
         print("initialization: " + str(initialization))
+        print("chromosome length: " + str(chromosome_length))
         print("\n")
 
         for configuration in list_of_configurations:
@@ -174,4 +172,6 @@ for initialization in range(re_initializations):
                 rotation_change_probability
             )
             cuberoid.solve()
+        chromosome_length += 1
+
     CubeConstants.seed = seed
