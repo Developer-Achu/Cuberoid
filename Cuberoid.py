@@ -66,17 +66,27 @@ class Cuberoid:
 
         return random.choice((child_1, child_2))
 
-    def inversion_mutation(self, child):
-        if random.random() > self.mutation_rate:
-            return
-        else:
-            random_indices = random.sample(range(self.chromosome_length), 2)
-            start_index = min(random_indices)
-            end_index = max(random_indices)
-            child.genes[start_index:end_index + 1] = child.genes[start_index:end_index + 1][::-1]
+    def mutation(self, child):
+        if random.random() < self.mutation_rate:
+            if random.random() < 0.5:
+                # inversion mutation
+                random_indices = random.sample(range(self.chromosome_length), 2)
+                start_index = min(random_indices)
+                end_index = max(random_indices)
+                child.genes[start_index:end_index + 1] = child.genes[start_index:end_index + 1][::-1]
+            else:
+                # flip a random bit on the gene
+                random_index = random.randint(0, self.chromosome_length - 1)
+                random_index_of_gene = random.randint(0, 5)
+                if child.genes[random_index][random_index_of_gene] == 0:
+                    child.genes[random_index][random_index_of_gene] = 1
+                else:
+                    child.genes[random_index][random_index_of_gene] = 0
 
             child.compute_fitness()
             self.update_best_child(child)
+        else:
+            return
 
     def update_mating_pool(self):
         self.mating_pool = np.copy(self.population)
@@ -93,7 +103,7 @@ class Cuberoid:
         for _ in range(length):
             parents = self.random_selection()
             child = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
+            self.mutation(child)
             new_population = np.append(new_population, child)
 
         self.population = np.copy(new_population)
@@ -104,7 +114,7 @@ class Cuberoid:
 
     def solve(self):
         self.iteration = 0
-        while self.iteration < self.max_iterations:
+        while self.best.get_fitness() != 0 and self.iteration < self.max_iterations:
             sys.stdout.write("\r%s%d" % ("Iteration : ", self.iteration))
             sys.stdout.flush()
             self.genetic_algorithm()

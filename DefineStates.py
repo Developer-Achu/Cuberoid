@@ -15,15 +15,15 @@ def get_a_state_change():
 
 def get_a_state_change_with_probability(previous_list, slice_prob_param, axis_prob_param, rotation_prob_param):
     return_list = copy.deepcopy(previous_list)
-    if random.random() > slice_prob_param:
+    if random.random() < slice_prob_param:
         return_list[0] = random.choice((0, 1))
         return_list[1] = random.choice((0, 1))
 
-    if random.random() > axis_prob_param:
+    if random.random() < axis_prob_param:
         return_list[2] = random.choice((0, 1))
         return_list[3] = random.choice((0, 1))
 
-    if random.random() > rotation_prob_param:
+    if random.random() < rotation_prob_param:
         return_list[4] = random.choice((0, 1))
         return_list[5] = random.choice((0, 1))
 
