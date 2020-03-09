@@ -182,6 +182,6 @@ for initialization in range(re_initializations):
                 rotation_change_probability
             )
             cuberoid.solve()
-        chromosome_length += 1
 
+    chromosome_length += 1
     CubeConstants.seed = seed
