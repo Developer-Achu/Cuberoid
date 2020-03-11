@@ -9,8 +9,8 @@ random.seed(CubeConstants.seed)
 class Cuberoid:
     def __init__(self, _configuration, _n, _chromosome_length, _population_size, _mutation_rate, _max_iterations,
                  _slice_change_probability, _axis_change_probability, _rotation_change_probability):
-        self.population = np.empty(_population_size, dtype=Chromosome)
-        self.mating_pool = np.empty(_population_size, dtype=Chromosome)
+        self.population = []
+        self.mating_pool = []
         self.best = None
         self.iteration = 0
         self.all_best_fitness = []
@@ -22,23 +22,18 @@ class Cuberoid:
         self.population_size = _population_size
         self.mutation_rate = _mutation_rate
         self.max_iterations = _max_iterations
-        self.slice_change_probability = slice_change_probability
+        self.slice_change_probability = _slice_change_probability
         self.axis_change_probability = _axis_change_probability
         self.rotation_change_probability = _rotation_change_probability
 
         self.init_population()
 
     def init_population(self):
-        for i in range(self.population_size):
+        for i in range(0, self.population_size):
             chromosome = Chromosome(self.sides, self.chromosome_length, self.n)
             chromosome.compute_fitness()
-            self.population[i] = chromosome
-
-            if i == 0:
-                self.best = self.population[i].get_chromosome_copy()
-            else:
-                if chromosome.get_fitness() < self.best.get_fitness():
-                    self.best = chromosome.get_chromosome_copy()
+            self.update_best_child(chromosome)
+            self.population.append(chromosome)
 
     def update_best_child(self, child):
         if self.best is None or child.get_fitness() < self.best.get_fitness():
@@ -50,30 +45,28 @@ class Cuberoid:
             sys.stdout.flush()
 
     def random_selection(self):
-        parent_1 = self.mating_pool[random.randint(0, self.population_size - 1)]
-        parent_2 = self.mating_pool[random.randint(0, self.population_size - 1)]
+        parent_1 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)]
+        parent_2 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)]
         return [parent_1, parent_2]
 
-    def uniform_crossover(self, parent_1, parent_2):
-        number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2))
-        random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
+    def one_point_crossover(self, parent_1, parent_2):
+        child = Chromosome(self.sides, self.chromosome_length, self.n)
 
-        child_1 = copy.deepcopy(parent_2)
-        child_2 = copy.deepcopy(parent_1)
+        point = random.randint(0, self.chromosome_length)
+        for i in range(0, self.chromosome_length):
+            if i > point:
+                child.genes.append(parent_1.genes[i])
+            else:
+                child.genes.append(parent_2.genes[i])
 
-        child_1.genes[random_indices] = parent_1.genes[random_indices]
-        child_2.genes[random_indices] = parent_2.genes[random_indices]
-
-        return random.choice((child_1, child_2))
+        return child
 
     def mutation(self, child):
         if random.random() < self.mutation_rate:
             if random.random() < 0.5:
-                # inversion mutation
-                random_indices = random.sample(range(self.chromosome_length), 2)
-                start_index = min(random_indices)
-                end_index = max(random_indices)
-                child.genes[start_index:end_index + 1] = child.genes[start_index:end_index + 1][::-1]
+                # random new gene
+                random_index = random.randint(0, self.chromosome_length - 1)
+                child.genes[random_index] = get_a_state_change()
             else:
                 # flip a random bit on the gene
                 random_index = random.randint(0, self.chromosome_length - 1)
@@ -89,24 +82,28 @@ class Cuberoid:
             return
 
     def update_mating_pool(self):
-        self.mating_pool = np.copy(self.population)
+        self.mating_pool = []
+        for chromosome in self.population:
+            count = ((48 - chromosome.get_fitness()) * 100)
+            for _ in range(0, count):
+                self.mating_pool.append(chromosome)
 
     def create_new_generation(self):
         length = self.population_size
 
-        new_population = np.empty(0, dtype=Chromosome)
+        new_population = []
 
         if self.best is not None:
-            new_population = np.append(new_population, self.best)
+            new_population.append(self.best)
             length -= 1
 
         for _ in range(length):
             parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
+            child = self.one_point_crossover(parents[0], parents[1])
             self.mutation(child)
-            new_population = np.append(new_population, child)
+            new_population.append(child)
 
-        self.population = np.copy(new_population)
+        self.population = new_population
 
     def genetic_algorithm(self):
         self.update_mating_pool()
@@ -145,12 +142,12 @@ else:
     print("Invalid argument count")
     exit(0)
 
-# re_initializations = 10
-# retry = 10
+# re_initializations = 1
+# retry = 1
 # chromosome_length = 20
-# population_size = 200
-# mutation_rate = 0.4
-# iterations = 1000
+# population_size = 100
+# mutation_rate = 0.5
+# iterations = 10
 # slice_change_probability = 0.5
 # axis_change_probability = 0.5
 # rotation_change_probability = 0.5

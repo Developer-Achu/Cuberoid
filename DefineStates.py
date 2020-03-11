@@ -1,4 +1,3 @@
-import copy
 import random
 
 import CubeConstants
@@ -14,7 +13,7 @@ def get_a_state_change():
 
 
 def get_a_state_change_with_probability(previous_list, slice_prob_param, axis_prob_param, rotation_prob_param):
-    return_list = copy.deepcopy(previous_list)
+    return_list = previous_list[:]
     if random.random() < slice_prob_param:
         return_list[0] = random.choice((0, 1))
         return_list[1] = random.choice((0, 1))

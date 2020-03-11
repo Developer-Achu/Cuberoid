@@ -1,6 +1,5 @@
-import copy
-
 import numpy as np
+import copy
 
 from CubeRotations import perform_cube_operations
 from DefineStates import *
@@ -12,10 +11,10 @@ class Chromosome:
         self.sides = _sides
         self.n = _n
         self.chromosome_length = _length
-        self.genes = np.empty(_length, dtype=tuple)
+        self.genes = []
 
         for i in range(self.chromosome_length):
-            self.genes[i] = (get_a_state_change())
+            self.genes.append(get_a_state_change())
 
     def compute_fitness(self):
         self.fitness = 0
@@ -41,9 +40,9 @@ class Chromosome:
 
     def get_chromosome_copy(self):
         chromosome = Chromosome(self.sides, self.chromosome_length, self.n)
-        chromosome.genes = np.copy(self.genes)
+        chromosome.genes = self.genes[:]
         chromosome.fitness = self.get_fitness()
         return chromosome
 
     def set_genes(self, genes):
-        self.genes = np.copy(genes)
+        self.genes = genes[:]
