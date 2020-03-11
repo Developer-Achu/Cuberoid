@@ -52,12 +52,12 @@ class Cuberoid:
     def one_point_crossover(self, parent_1, parent_2):
         child = Chromosome(self.sides, self.chromosome_length, self.n)
 
-        point = random.randint(0, self.chromosome_length)
-        for i in range(0, self.chromosome_length):
-            if i > point:
-                child.genes.append(parent_1.genes[i])
-            else:
-                child.genes.append(parent_2.genes[i])
+        number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2))
+        random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
+
+        child.genes = parent_2.genes[:]
+        for index in random_indices:
+            child.genes[index] = parent_1.genes[index]
 
         return child
 
@@ -71,10 +71,7 @@ class Cuberoid:
                 # flip a random bit on the gene
                 random_index = random.randint(0, self.chromosome_length - 1)
                 random_index_of_gene = random.randint(0, 5)
-                if child.genes[random_index][random_index_of_gene] == 0:
-                    child.genes[random_index][random_index_of_gene] = 1
-                else:
-                    child.genes[random_index][random_index_of_gene] = 0
+                child.genes[random_index][random_index_of_gene] = (1 - child.genes[random_index][random_index_of_gene])
 
             child.compute_fitness()
             self.update_best_child(child)
@@ -84,7 +81,7 @@ class Cuberoid:
     def update_mating_pool(self):
         self.mating_pool = []
         for chromosome in self.population:
-            count = ((48 - chromosome.get_fitness()) * 100)
+            count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 100)
             for _ in range(0, count):
                 self.mating_pool.append(chromosome)
 

@@ -19,10 +19,10 @@ def get_side_matrix(color, n):
 
 
 def generate_solved_cube_matrix(n):
-    generated_sides = {}
-    color_list = list(range(1, 7))
+    generated_sides = []
+    color_list = list(range(0, 6))
     for index, color in enumerate(color_list):
-        generated_sides.update({index + 1: get_side_matrix(color, n)})
+        generated_sides.append(get_side_matrix(color, n))
     return generated_sides
 
 

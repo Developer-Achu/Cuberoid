@@ -1,6 +1,5 @@
 import numpy as np
 import copy
-
 from CubeRotations import perform_cube_operations
 from DefineStates import *
 
@@ -27,10 +26,10 @@ class Chromosome:
             if cube_slice != 0 and axis is not None and rotation != 0:
                 perform_cube_operations(self.n, sides, cube_slice, axis, rotation)
 
-        for key in sides.keys():
-            count_dict = dict(zip(*np.unique(sides[key], return_counts=True)))
+        for i in range(0, len(sides)):
+            count_dict = dict(zip(*np.unique(sides[i], return_counts=True)))
             try:
-                count = count_dict[key]
+                count = count_dict[i]
             except:
                 count = 0
             self.fitness += ((self.n ** 2) - count)

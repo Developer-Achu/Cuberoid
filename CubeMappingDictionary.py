@@ -16,32 +16,32 @@ import CubeConstants as constants
 
 cube_mapping_dictionary = {
     'x': {
-        constants.rotating_sides: (1, 6),
+        constants.rotating_sides: (0, 5),
         constants.moving_sides: {
-            2: (1, True, True, False, 3),
-            5: (1, False, True, True, 2),
-            4: (-1, True, True, False, 5),
-            3: (-1, False, True, True, 4),
+            1: (1, True, True, False, 2),
+            4: (1, False, True, True, 1),
+            3: (-1, True, True, False, 4),
+            2: (-1, False, True, True, 3),
         },
     },
 
     'y': {
-        constants.rotating_sides: (2, 4),
+        constants.rotating_sides: (1, 3),
         constants.moving_sides: {
-            1: (-1, True, False, False, 5),
-            3: (-1, True, False, False, 1),
-            6: (-1, True, False, False, 3),
-            5: (-1, True, False, False, 6),
+            0: (-1, True, False, False, 4),
+            2: (-1, True, False, False, 0),
+            5: (-1, True, False, False, 2),
+            4: (-1, True, False, False, 5),
         },
     },
 
     'z': {
-        constants.rotating_sides: (3, 5),
+        constants.rotating_sides: (2, 4),
         constants.moving_sides: {
-            1: (1, False, False, False, 2),
-            4: (1, False, False, False, 1),
-            6: (-1, False, False, True, 4),
-            2: (1, False, False, True, 6),
+            0: (1, False, False, False, 1),
+            3: (1, False, False, False, 0),
+            5: (-1, False, False, True, 3),
+            1: (1, False, False, True, 5),
         },
     }
 }
