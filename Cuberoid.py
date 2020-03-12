@@ -11,6 +11,7 @@ class Cuberoid:
                  _slice_change_probability, _axis_change_probability, _rotation_change_probability):
         self.population = []
         self.mating_pool = []
+        self.updated_mating_pool = []
         self.best = None
         self.iteration = 0
         self.all_best_fitness = []
@@ -34,6 +35,7 @@ class Cuberoid:
             chromosome.compute_fitness()
             self.update_best_child(chromosome)
             self.population.append(chromosome)
+        self.updated_mating_pool = self.population
 
     def update_best_child(self, child):
         if self.best is None or child.get_fitness() < self.best.get_fitness():
@@ -49,7 +51,7 @@ class Cuberoid:
         parent_2 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)]
         return [parent_1, parent_2]
 
-    def one_point_crossover(self, parent_1, parent_2):
+    def uniform_crossover(self, parent_1, parent_2):
         child = Chromosome(self.sides, self.chromosome_length, self.n)
 
         number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2))
@@ -73,22 +75,22 @@ class Cuberoid:
                 random_index_of_gene = random.randint(0, 5)
                 child.genes[random_index][random_index_of_gene] = (1 - child.genes[random_index][random_index_of_gene])
 
-            child.compute_fitness()
-            self.update_best_child(child)
-        else:
-            return
+        child.compute_fitness()
+        self.update_best_child(child)
 
     def update_mating_pool(self):
-        self.mating_pool = []
-        for chromosome in self.population:
-            count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.mating_pool.append(chromosome)
+        # self.mating_pool = self.population
+        self.mating_pool = self.updated_mating_pool
+        # for chromosome in self.population:
+        #     count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 10)
+        #     for _ in range(0, count):
+        #         self.mating_pool.append(chromosome)
 
     def create_new_generation(self):
         length = self.population_size
 
         new_population = []
+        self.updated_mating_pool = []
 
         if self.best is not None:
             new_population.append(self.best)
@@ -96,9 +98,12 @@ class Cuberoid:
 
         for _ in range(length):
             parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
+            child = self.uniform_crossover(parents[0], parents[1])
             self.mutation(child)
             new_population.append(child)
+            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 10)
+            for _ in range(0, count):
+                self.updated_mating_pool.append(child)
 
         self.population = new_population
 
@@ -109,8 +114,9 @@ class Cuberoid:
     def solve(self):
         self.iteration = 0
         while self.best.get_fitness() != 0 and self.iteration < self.max_iterations:
-            sys.stdout.write("\r%s%d" % ("Iteration : ", self.iteration))
-            sys.stdout.flush()
+            if self.iteration % 100 == 0:
+                sys.stdout.write("\r%s%d" % ("Iteration : ", self.iteration))
+                sys.stdout.flush()
             self.genetic_algorithm()
             self.iteration += 1
 
