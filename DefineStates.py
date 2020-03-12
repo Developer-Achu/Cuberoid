@@ -49,3 +49,13 @@ def get_cube_rotation(v1, v2):
             return 3
         else:
             return 0
+
+
+def print_moves(genes):
+    converted_moves = []
+    for move in genes:
+        cube_slice = get_cube_slice(move[0], move[1])
+        axis = get_cube_axis(move[2], move[3])
+        rotation = get_cube_rotation(move[4], move[5])
+        converted_moves.append((cube_slice, axis, rotation))
+    print_moves(converted_moves)

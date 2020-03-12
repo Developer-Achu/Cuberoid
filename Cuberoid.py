@@ -79,8 +79,9 @@ class Cuberoid:
         self.update_best_child(child)
 
     def update_mating_pool(self):
-        # self.mating_pool = self.population
         self.mating_pool = self.updated_mating_pool
+        # self.mating_pool = self.population
+
         # for chromosome in self.population:
         #     count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 10)
         #     for _ in range(0, count):
@@ -94,6 +95,9 @@ class Cuberoid:
 
         if self.best is not None:
             new_population.append(self.best)
+            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 10)
+            for _ in range(0, count):
+                self.updated_mating_pool.append(self.best)
             length -= 1
 
         for _ in range(length):
@@ -124,7 +128,8 @@ class Cuberoid:
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
-        # print("Best solution moves: ", self.best.genes)
+        if self.best.get_fitness() == 0:
+            print("Best solution moves: ", print_moves(self.best))
         print("=======================================")
         print("\n")
 
