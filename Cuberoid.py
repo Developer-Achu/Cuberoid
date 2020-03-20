@@ -657,6 +657,8 @@ class Cuberoid:
         print("=======================================")
         print("\n")
 
+        return self.best.get_fitness() == 0
+
 
 n = 3
 
@@ -685,10 +687,6 @@ else:
 # axis_change_probability = 0.5
 # rotation_change_probability = 0.5
 # config_combination = 1
-
-file_name = str(n) + "x" + str(n) + ".npy"
-read_dict = np.load(file_name, allow_pickle=True).item()
-list_of_configurations = read_dict[CubeConstants.sides_dict_key]
 
 if config_combination == 1:
     print("Roulette selection --> one-point crossover --> random mutation")
@@ -727,17 +725,21 @@ elif config_combination == 17:
 elif config_combination == 18:
     print("Tournament selection --> uniform crossover --> scramble mutation")
 
-for initialization in range(re_initializations):
-    seed = CubeConstants.seed
-    for r in range(retry):
-        CubeConstants.seed = CubeConstants.seed + (r * 1000)
-        print("seed value: " + str(CubeConstants.seed))
-        print("retry: " + str(r))
-        print("initialization: " + str(initialization))
-        print("chromosome length: " + str(chromosome_length))
-        print("\n")
+file_name = str(n) + "x" + str(n) + ".npy"
+read_dict = np.load(file_name, allow_pickle=True).item()
+list_of_configurations = read_dict[CubeConstants.sides_dict_key]
 
-        for configuration in list_of_configurations:
+for configuration in list_of_configurations:
+    cube_solved = False
+    for initialization in range(re_initializations):
+        CubeConstants.seed = CubeConstants.seed + (initialization * 1000)
+        print("initialization: " + str(initialization))
+        print("seed value: " + str(CubeConstants.seed))
+        for r in range(retry):
+            print("retry: " + str(r))
+            print("chromosome length: " + str(chromosome_length))
+            print("\n")
+
             cuberoid = Cuberoid(
                 configuration,
                 n,
@@ -750,7 +752,9 @@ for initialization in range(re_initializations):
                 rotation_change_probability,
                 config_combination
             )
-            cuberoid.solve()
+            cube_solved = cuberoid.solve()
+            if cube_solved:
+                break
 
-    chromosome_length += 1
-    CubeConstants.seed = seed
+        if cube_solved:
+            break
