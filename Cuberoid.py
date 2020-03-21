@@ -150,6 +150,7 @@ class Cuberoid:
 
     def update_mating_pool(self):
         self.mating_pool = self.updated_mating_pool
+        # self.mating_pool = self.population
 
     def config_1(self):
         length = self.population_size
@@ -657,7 +658,7 @@ class Cuberoid:
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
         if self.best.get_fitness() == 0:
-            print("Best solution moves: ", print_moves(self.best))
+            print("Best solution moves: ", print_moves(self.best.genes))
         print("=======================================")
         print("\n")
 
@@ -683,16 +684,16 @@ else:
     print("Invalid argument count")
     exit(0)
 
-# re_initializations = 1
-# retry = 1
-# chromosome_length = 20
+# re_initializations = 5
+# retry = 5
+# chromosome_length = 25
 # population_size = 100
-# mutation_rate = 0.5
-# iterations = 10
-# slice_change_probability = 0.5
-# axis_change_probability = 0.5
-# rotation_change_probability = 0.5
-# config_combination = 1
+# mutation_rate = 0.4
+# iterations = 5000
+# slice_change_probability = 1
+# axis_change_probability = 1
+# rotation_change_probability = 1
+# config_combination = 8
 
 if config_combination == 1:
     print("Roulette selection --> one-point crossover --> random mutation")

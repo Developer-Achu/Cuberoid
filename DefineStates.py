@@ -57,5 +57,6 @@ def print_moves(genes):
         cube_slice = get_cube_slice(move[0], move[1])
         axis = get_cube_axis(move[2], move[3])
         rotation = get_cube_rotation(move[4], move[5])
-        converted_moves.append((cube_slice, axis, rotation))
-    print_moves(converted_moves)
+        if cube_slice != 0 and axis is not None and rotation != 0:
+            converted_moves.append((cube_slice, axis, rotation))
+    print(converted_moves)
