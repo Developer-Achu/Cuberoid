@@ -47,7 +47,7 @@ class Cuberoid:
                 count = ((((self.n ** 2) * 6) - self.population[i].get_fitness()) * 100)
                 for _ in range(0, count):
                     self.updated_mating_pool.append(self.population[i])
-        else:
+        elif 9 < self.config_combination < 19:
             for i in range(self.population_size):
                 chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
                 chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
@@ -55,6 +55,8 @@ class Cuberoid:
                     self.updated_mating_pool.append(chromosome_1)
                 else:
                     self.updated_mating_pool.append(chromosome_2)
+        else:
+            self.updated_mating_pool = self.population
 
     def update_best_child(self, child):
         if self.best is None or child.get_fitness() < self.best.get_fitness():
@@ -150,7 +152,6 @@ class Cuberoid:
 
     def update_mating_pool(self):
         self.mating_pool = self.updated_mating_pool
-        # self.mating_pool = self.population
 
     def config_1(self):
         length = self.population_size
@@ -602,6 +603,177 @@ class Cuberoid:
             else:
                 self.updated_mating_pool.append(chromosome_2)
 
+    def config_19(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.one_point_crossover(parents[0], parents[1])
+            self.random_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_20(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.one_point_crossover(parents[0], parents[1])
+            self.inversion_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_21(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.one_point_crossover(parents[0], parents[1])
+            self.scramble_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_22(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.two_point_crossover(parents[0], parents[1])
+            self.random_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_23(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.two_point_crossover(parents[0], parents[1])
+            self.inversion_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_24(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.two_point_crossover(parents[0], parents[1])
+            self.scramble_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_25(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.uniform_crossover(parents[0], parents[1])
+            self.random_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_26(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.uniform_crossover(parents[0], parents[1])
+            self.inversion_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
+    def config_27(self):
+        length = self.population_size
+
+        new_population = []
+        self.updated_mating_pool = []
+
+        if self.best is not None:
+            new_population.append(self.best)
+            length -= 1
+
+        for _ in range(length):
+            parents = self.random_selection()
+            child = self.uniform_crossover(parents[0], parents[1])
+            self.scramble_mutation(child)
+            new_population.append(child)
+
+        self.population = new_population
+        self.updated_mating_pool = new_population
+
     def create_new_generation(self):
         if config_combination == 1:
             self.config_1()
@@ -639,6 +811,24 @@ class Cuberoid:
             self.config_17()
         elif config_combination == 18:
             self.config_18()
+        elif config_combination == 19:
+            self.config_19()
+        elif config_combination == 20:
+            self.config_20()
+        elif config_combination == 21:
+            self.config_21()
+        elif config_combination == 22:
+            self.config_22()
+        elif config_combination == 23:
+            self.config_23()
+        elif config_combination == 24:
+            self.config_24()
+        elif config_combination == 25:
+            self.config_25()
+        elif config_combination == 26:
+            self.config_26()
+        elif config_combination == 27:
+            self.config_27()
 
     def genetic_algorithm(self):
         self.update_mating_pool()
@@ -731,6 +921,24 @@ elif config_combination == 17:
     print("Tournament selection --> uniform crossover --> inversion mutation")
 elif config_combination == 18:
     print("Tournament selection --> uniform crossover --> scramble mutation")
+elif config_combination == 19:
+    print("No selection --> one point crossover --> random mutation")
+elif config_combination == 20:
+    print("No selection --> one-point crossover --> inversion mutation")
+elif config_combination == 21:
+    print("No selection --> one-point crossover --> scramble mutation")
+elif config_combination == 22:
+    print("No selection --> two-point crossover --> random mutation")
+elif config_combination == 23:
+    print("No selection --> two-point crossover --> inversion mutation")
+elif config_combination == 24:
+    print("No selection --> two-point crossover --> scramble mutation")
+elif config_combination == 25:
+    print("No selection --> uniform crossover --> random mutation")
+elif config_combination == 26:
+    print("No selection --> uniform crossover --> inversion mutation")
+elif config_combination == 27:
+    print("No selection --> uniform crossover --> scramble mutation")
 
 file_name = str(n) + "x" + str(n) + ".npy"
 read_dict = np.load(file_name, allow_pickle=True).item()
