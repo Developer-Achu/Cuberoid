@@ -1,4 +1,7 @@
+import os
 import sys
+
+import matplotlib.pyplot as plt
 
 from Chromosome import *
 from DefineStates import *
@@ -7,7 +10,7 @@ random.seed(CubeConstants.seed)
 
 
 class Cuberoid:
-    def __init__(self, _configuration, _n, _chromosome_length, _population_size, _mutation_rate, _max_iterations,
+    def __init__(self, _configuration, _r, _n, _chromosome_length, _population_size, _mutation_rate, _max_iterations,
                  _slice_change_probability, _axis_change_probability, _rotation_change_probability,
                  _config_combination):
         self.population = []
@@ -19,6 +22,7 @@ class Cuberoid:
         self.iteration_list = []
 
         self.sides = _configuration
+        self.retry = _r
         self.n = _n
         self.chromosome_length = _chromosome_length
         self.population_size = _population_size
@@ -648,7 +652,7 @@ class Cuberoid:
             self.genetic_algorithm()
             self.iteration += 1
 
-        self.all_best_fitness.append(self.best.get_fitness())
+        # self.all_best_fitness.append(self.best.get_fitness())
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
@@ -656,6 +660,8 @@ class Cuberoid:
             print("Best solution moves: ", print_moves(self.best))
         print("=======================================")
         print("\n")
+
+        plt.plot(self.iteration_list, self.all_best_fitness, label="retry-" + str(self.retry))
 
         return self.best.get_fitness() == 0
 
@@ -729,9 +735,22 @@ file_name = str(n) + "x" + str(n) + ".npy"
 read_dict = np.load(file_name, allow_pickle=True).item()
 list_of_configurations = read_dict[CubeConstants.sides_dict_key]
 
+# create directory
+try:
+    os.mkdir(CubeConstants.directory_name)
+except:
+    pass
+
+sub_directory_name = CubeConstants.directory_name + CubeConstants.directory_config + str(config_combination) + "/"
+try:
+    os.mkdir(sub_directory_name)
+except:
+    pass
+
 for configuration in list_of_configurations:
     cube_solved = False
     for initialization in range(re_initializations):
+        image_name = sub_directory_name + "initialization-" + str(initialization) + ".png"
         CubeConstants.seed = CubeConstants.seed + (initialization * 1000)
         print("initialization: " + str(initialization))
         print("seed value: " + str(CubeConstants.seed))
@@ -742,6 +761,7 @@ for configuration in list_of_configurations:
 
             cuberoid = Cuberoid(
                 configuration,
+                r,
                 n,
                 chromosome_length,
                 population_size,
@@ -755,6 +775,11 @@ for configuration in list_of_configurations:
             cube_solved = cuberoid.solve()
             if cube_solved:
                 break
-
+        plt.xlabel("Iteration")
+        plt.ylabel("Best score")
+        plt.legend()
+        # plt.show()
+        plt.savefig(image_name)
+        plt.close()
         if cube_solved:
             break
