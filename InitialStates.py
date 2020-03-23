@@ -64,7 +64,7 @@ with open(file_name, "w") as file:
         details.append("actual moves: " + str(actual_moves))  #
         details.append("moves: " + str(moves))  #
         states.append(details)  #
-        file.write("\nc: " + str(convert_sides(sides)))
+        file.write("\nc:" + str(convert_sides(sides)))
 file.close()
 
 #
