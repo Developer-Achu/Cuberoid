@@ -8,22 +8,12 @@ from DefineStates import *
 random.seed(CubeConstants.seed)
 
 
-def get_side_matrix(color, n):
-    entire_side = []
-    for i in range(1, n + 1):
-        row = []
-        for j in range(1, n + 1):
-            row.append(color)
-        entire_side.append(row)
-    return np.array(entire_side)
+def convert_sides(_sides):
+    flattened_list = []
+    for _side in _sides:
+        flattened_list.append(_side.flatten().tolist())
 
-
-def generate_solved_cube_matrix(n):
-    generated_sides = []
-    color_list = list(range(0, 6))
-    for index, color in enumerate(color_list):
-        generated_sides.append(get_side_matrix(color, n))
-    return generated_sides
+    return flattened_list
 
 
 if len(sys.argv) == 3:
@@ -42,10 +32,23 @@ else:
 n = 3
 sides_list = []
 
-with open(CubeConstants.moves_file_name, "w") as file:
+file_name = str(n) + "x" + str(n) + ".txt"
+with open(file_name, "w") as file:
+    states = []  #
     for state in range(total_states):
-        moves_performed = []
-        sides = generate_solved_cube_matrix(n)
+        details = []  #
+        moves = []  #
+
+        sides = []
+        actual_moves = 0  #
+
+        sides.append(np.reshape([0 for _ in range(n ** 2)], (n, n)))
+        sides.append(np.reshape([1 for _ in range(n ** 2)], (n, n)))
+        sides.append(np.reshape([2 for _ in range(n ** 2)], (n, n)))
+        sides.append(np.reshape([3 for _ in range(n ** 2)], (n, n)))
+        sides.append(np.reshape([4 for _ in range(n ** 2)], (n, n)))
+        sides.append(np.reshape([5 for _ in range(n ** 2)], (n, n)))
+
         scramble_size = random.randint(1, max_scramble_size)
         for scramble in range(scramble_size):
             cube_parameters = get_a_state_change()
@@ -53,13 +56,23 @@ with open(CubeConstants.moves_file_name, "w") as file:
             axis = get_cube_axis(cube_parameters[2], cube_parameters[3])
             rotation = get_cube_rotation(cube_parameters[4], cube_parameters[5])
             if cube_slice != 0 and axis is not None and rotation != 0:
-                moves_performed.append((cube_slice, axis, rotation))
+                actual_moves += 1  #
+                moves.append((cube_slice, axis, rotation))  #
                 perform_cube_operations(n, sides, cube_slice, axis, rotation)
-        file.write("\nstate: " + str(state))
-        file.write("\nmoves: " + str(moves_performed))
-        sides_list.append(sides)
+        details.append("state: " + str(state))  #
+        details.append("max scrambles: " + str(scramble_size))  #
+        details.append("actual moves: " + str(actual_moves))  #
+        details.append("moves: " + str(moves))  #
+        states.append(details)  #
+        file.write("\nc: " + str(convert_sides(sides)))
 file.close()
 
-sides_dict = {CubeConstants.sides_dict_key: sides_list}
-file_name = str(n) + "x" + str(n) + ".npy"
-np.save(file_name, sides_dict)
+#
+with open(CubeConstants.moves_file_name, "w") as file:
+    for state in states:
+        file.write("\n" + str(state[0]))
+        file.write("\n" + str(state[1]))
+        file.write("\n" + str(state[2]))
+        file.write("\n" + str(state[3]) + "\n")
+file.close()
+#
