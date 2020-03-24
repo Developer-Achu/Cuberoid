@@ -1,4 +1,5 @@
 import os
+import pickle
 import sys
 
 import matplotlib.pyplot as plt
@@ -21,7 +22,12 @@ class Cuberoid:
         self.all_best_fitness = []
         self.iteration_list = []
 
-        self.sides = _configuration
+        self.side_0 = _configuration[0]
+        self.side_1 = _configuration[1]
+        self.side_2 = _configuration[2]
+        self.side_3 = _configuration[3]
+        self.side_4 = _configuration[4]
+        self.side_5 = _configuration[5]
         self.retry = _r
         self.n = _n
         self.chromosome_length = _chromosome_length
@@ -32,12 +38,43 @@ class Cuberoid:
         self.axis_change_probability = _axis_change_probability
         self.rotation_change_probability = _rotation_change_probability
         self.config_combination = _config_combination
+        self.config_dict = {
+            1: self.config_1,
+            2: self.config_2,
+            3: self.config_3,
+            4: self.config_4,
+            5: self.config_5,
+            6: self.config_6,
+            7: self.config_7,
+            8: self.config_8,
+            9: self.config_9,
+            10: self.config_10,
+            11: self.config_11,
+            12: self.config_12,
+            13: self.config_13,
+            14: self.config_14,
+            15: self.config_15,
+            16: self.config_16,
+            17: self.config_17,
+            18: self.config_18,
+            19: self.config_19,
+            20: self.config_20,
+            21: self.config_21,
+            22: self.config_22,
+            23: self.config_23,
+            24: self.config_24,
+            25: self.config_25,
+            26: self.config_26,
+            27: self.config_27
+        }
+        self.config_function = self.config_dict[self.config_combination]
 
         self.init_population()
 
     def init_population(self):
         for i in range(0, self.population_size):
-            chromosome = Chromosome(self.sides, self.chromosome_length, self.n)
+            chromosome = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
+                                    self.chromosome_length, self.n)
             chromosome.compute_fitness()
             self.update_best_child(chromosome)
             self.population.append(chromosome)
@@ -73,7 +110,8 @@ class Cuberoid:
         return [parent_1, parent_2]
 
     def one_point_crossover(self, parent_1, parent_2):
-        child = Chromosome(self.sides, self.chromosome_length, self.n)
+        child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
+                           self.chromosome_length, self.n)
 
         random_point = random.randint(0, self.chromosome_length - 1)
         child.genes = parent_1.genes[:]
@@ -84,7 +122,8 @@ class Cuberoid:
         return child
 
     def two_point_crossover(self, parent_1, parent_2):
-        child = Chromosome(self.sides, self.chromosome_length, self.n)
+        child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
+                           self.chromosome_length, self.n)
 
         random_indices = random.sample(range(self.chromosome_length), 2)
         start_index = min(random_indices)
@@ -98,7 +137,8 @@ class Cuberoid:
         return child
 
     def uniform_crossover(self, parent_1, parent_2):
-        child = Chromosome(self.sides, self.chromosome_length, self.n)
+        child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
+                           self.chromosome_length, self.n)
 
         number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2) - 1)
         random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
@@ -154,17 +194,17 @@ class Cuberoid:
         self.mating_pool = self.updated_mating_pool
 
     def config_1(self):
-        length = self.population_size
+        # -1 since we add the best child to the new population
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        # adding the best child to the new population
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -178,17 +218,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_2(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -202,17 +240,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_3(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -226,17 +262,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_4(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -250,17 +284,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_5(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -274,17 +306,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_6(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -298,17 +328,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_7(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -322,17 +350,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_8(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -346,17 +372,15 @@ class Cuberoid:
         self.population = new_population
 
     def config_9(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(self.best)
-            length -= 1
+        new_population.append(self.best)
+        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
+        for _ in range(0, count):
+            self.updated_mating_pool.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -370,14 +394,12 @@ class Cuberoid:
         self.population = new_population
 
     def config_10(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -396,14 +418,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_11(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -422,14 +442,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_12(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -448,14 +466,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_13(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -474,14 +490,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_14(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -500,14 +514,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_15(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -526,14 +538,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_16(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -552,14 +562,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_17(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -578,14 +586,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_18(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -604,14 +610,12 @@ class Cuberoid:
                 self.updated_mating_pool.append(chromosome_2)
 
     def config_19(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -623,14 +627,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_20(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -642,14 +644,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_21(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -661,14 +661,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_22(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -680,14 +678,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_23(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -699,14 +695,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_24(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -718,14 +712,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_25(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -737,14 +729,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_26(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -756,14 +746,12 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def config_27(self):
-        length = self.population_size
+        length = self.population_size - 1
 
         new_population = []
         self.updated_mating_pool = []
 
-        if self.best is not None:
-            new_population.append(self.best)
-            length -= 1
+        new_population.append(self.best)
 
         for _ in range(length):
             parents = self.random_selection()
@@ -775,60 +763,7 @@ class Cuberoid:
         self.updated_mating_pool = new_population
 
     def create_new_generation(self):
-        if config_combination == 1:
-            self.config_1()
-        elif config_combination == 2:
-            self.config_2()
-        elif config_combination == 3:
-            self.config_3()
-        elif config_combination == 4:
-            self.config_4()
-        elif config_combination == 5:
-            self.config_5()
-        elif config_combination == 6:
-            self.config_6()
-        elif config_combination == 7:
-            self.config_7()
-        elif config_combination == 8:
-            self.config_8()
-        elif config_combination == 9:
-            self.config_9()
-        elif config_combination == 10:
-            self.config_10()
-        elif config_combination == 11:
-            self.config_11()
-        elif config_combination == 12:
-            self.config_12()
-        elif config_combination == 13:
-            self.config_13()
-        elif config_combination == 14:
-            self.config_14()
-        elif config_combination == 15:
-            self.config_15()
-        elif config_combination == 16:
-            self.config_16()
-        elif config_combination == 17:
-            self.config_17()
-        elif config_combination == 18:
-            self.config_18()
-        elif config_combination == 19:
-            self.config_19()
-        elif config_combination == 20:
-            self.config_20()
-        elif config_combination == 21:
-            self.config_21()
-        elif config_combination == 22:
-            self.config_22()
-        elif config_combination == 23:
-            self.config_23()
-        elif config_combination == 24:
-            self.config_24()
-        elif config_combination == 25:
-            self.config_25()
-        elif config_combination == 26:
-            self.config_26()
-        elif config_combination == 27:
-            self.config_27()
+        self.config_function()
 
     def genetic_algorithm(self):
         self.update_mating_pool()
@@ -874,16 +809,16 @@ else:
     print("Invalid argument count")
     exit(0)
 
-# re_initializations = 5
-# retry = 5
-# chromosome_length = 25
-# population_size = 100
-# mutation_rate = 0.4
-# iterations = 5000
+# re_initializations = 1
+# retry = 1
+# chromosome_length = 10
+# population_size = 20
+# mutation_rate = 0.05
+# iterations = 5
 # slice_change_probability = 1
 # axis_change_probability = 1
 # rotation_change_probability = 1
-# config_combination = 8
+# config_combination = 1
 
 if config_combination == 1:
     print("Roulette selection --> one-point crossover --> random mutation")
@@ -940,9 +875,9 @@ elif config_combination == 26:
 elif config_combination == 27:
     print("No selection --> uniform crossover --> scramble mutation")
 
-file_name = str(n) + "x" + str(n) + ".npy"
-read_dict = np.load(file_name, allow_pickle=True).item()
-list_of_configurations = read_dict[CubeConstants.sides_dict_key]
+file_name = str(n) + "x" + str(n)
+file = open(file_name, "rb")
+list_of_configurations = pickle.load(file)
 
 # create directory
 try:

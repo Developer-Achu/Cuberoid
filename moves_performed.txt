@@ -1,0 +1,5 @@
+
+state: 0
+max scrambles: 12
+actual moves: 5
+moves: [(3, 'z', 2), (3, 'y', 2), (1, 'z', 2), (3, 'y', 3), (3, 'x', 2)]
