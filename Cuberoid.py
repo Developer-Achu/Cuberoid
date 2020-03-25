@@ -1,6 +1,8 @@
 import os
 import pickle
 import sys
+import threading
+import queue
 
 import matplotlib.pyplot as plt
 
@@ -39,35 +41,37 @@ class Cuberoid:
         self.rotation_change_probability = _rotation_change_probability
         self.config_combination = _config_combination
         self.config_dict = {
-            1: self.config_1,
-            2: self.config_2,
-            3: self.config_3,
-            4: self.config_4,
-            5: self.config_5,
-            6: self.config_6,
-            7: self.config_7,
-            8: self.config_8,
-            9: self.config_9,
-            10: self.config_10,
-            11: self.config_11,
-            12: self.config_12,
-            13: self.config_13,
-            14: self.config_14,
-            15: self.config_15,
-            16: self.config_16,
-            17: self.config_17,
-            18: self.config_18,
-            19: self.config_19,
-            20: self.config_20,
-            21: self.config_21,
-            22: self.config_22,
-            23: self.config_23,
-            24: self.config_24,
-            25: self.config_25,
-            26: self.config_26,
-            27: self.config_27
+            1: (self.roulette_wheel, self.one_point_crossover, self.random_mutation),
+            2: (self.roulette_wheel, self.one_point_crossover, self.inversion_mutation),
+            3: (self.roulette_wheel, self.one_point_crossover, self.scramble_mutation),
+            4: (self.roulette_wheel, self.two_point_crossover, self.random_mutation),
+            5: (self.roulette_wheel, self.two_point_crossover, self.inversion_mutation),
+            6: (self.roulette_wheel, self.two_point_crossover, self.scramble_mutation),
+            7: (self.roulette_wheel, self.uniform_crossover, self.random_mutation),
+            8: (self.roulette_wheel, self.uniform_crossover, self.inversion_mutation),
+            9: (self.roulette_wheel, self.uniform_crossover, self.scramble_mutation),
+            10: (self.tournament, self.one_point_crossover, self.random_mutation),
+            11: (self.tournament, self.one_point_crossover, self.inversion_mutation),
+            12: (self.tournament, self.one_point_crossover, self.scramble_mutation),
+            13: (self.tournament, self.two_point_crossover, self.random_mutation),
+            14: (self.tournament, self.two_point_crossover, self.inversion_mutation),
+            15: (self.tournament, self.two_point_crossover, self.scramble_mutation),
+            16: (self.tournament, self.uniform_crossover, self.random_mutation),
+            17: (self.tournament, self.uniform_crossover, self.inversion_mutation),
+            18: (self.tournament, self.uniform_crossover, self.scramble_mutation),
+            19: (self.no_selection, self.one_point_crossover, self.random_mutation),
+            20: (self.no_selection, self.one_point_crossover, self.inversion_mutation),
+            21: (self.no_selection, self.one_point_crossover, self.scramble_mutation),
+            22: (self.no_selection, self.two_point_crossover, self.random_mutation),
+            23: (self.no_selection, self.two_point_crossover, self.inversion_mutation),
+            24: (self.no_selection, self.two_point_crossover, self.scramble_mutation),
+            25: (self.no_selection, self.uniform_crossover, self.random_mutation),
+            26: (self.no_selection, self.uniform_crossover, self.inversion_mutation),
+            27: (self.no_selection, self.uniform_crossover, self.scramble_mutation)
         }
-        self.config_function = self.config_dict[self.config_combination]
+        self.mating_pool_updation = self.config_dict[self.config_combination][0]
+        self.crossover = self.config_dict[self.config_combination][1]
+        self.mutation = self.config_dict[self.config_combination][2]
 
         self.init_population()
 
@@ -105,8 +109,8 @@ class Cuberoid:
             sys.stdout.flush()
 
     def random_selection(self):
-        parent_1 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)]
-        parent_2 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)]
+        parent_1 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)].get_chromosome_copy()
+        parent_2 = self.mating_pool[random.randint(0, len(self.mating_pool) - 1)].get_chromosome_copy()
         return [parent_1, parent_2]
 
     def one_point_crossover(self, parent_1, parent_2):
@@ -190,11 +194,27 @@ class Cuberoid:
         child.compute_fitness()
         self.update_best_child(child)
 
-    def update_mating_pool(self):
-        self.mating_pool = self.updated_mating_pool
+    def roulette_wheel(self):
+        self.mating_pool = []
+        for chromosome in self.population:
+            count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 100)
+            for _ in range(0, count):
+                self.mating_pool.append(chromosome)
 
-    def config_1(self):
-        # -1 since we add the best child to the new population
+    def tournament(self):
+        self.mating_pool = []
+        for i in range(self.population_size):
+            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
+            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
+            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
+                self.mating_pool.append(chromosome_1)
+            else:
+                self.mating_pool.append(chromosome_2)
+
+    def no_selection(self):
+        self.mating_pool = self.population
+
+    def create_new_generation(self):
         length = self.population_size - 1
 
         new_population = []
@@ -202,571 +222,20 @@ class Cuberoid:
 
         # adding the best child to the new population
         new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
+
+        batch = int(length / 4)
+        last_batch = length - (3 * batch)
 
         for _ in range(length):
             parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_2(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_3(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_4(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_5(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_6(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_7(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_8(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_9(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-        count = ((((self.n ** 2) * 6) - self.best.get_fitness()) * 100)
-        for _ in range(0, count):
-            self.updated_mating_pool.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-            count = ((((self.n ** 2) * 6) - child.get_fitness()) * 100)
-            for _ in range(0, count):
-                self.updated_mating_pool.append(child)
-
-        self.population = new_population
-
-    def config_10(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
+            child = self.crossover(parents[0], parents[1])
+            self.mutation(child)
             new_population.append(child)
 
         self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_11(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_12(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_13(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_14(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_15(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_16(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_17(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_18(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-
-        for i in range(self.population_size):
-            chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-            chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                self.updated_mating_pool.append(chromosome_1)
-            else:
-                self.updated_mating_pool.append(chromosome_2)
-
-    def config_19(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_20(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_21(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.one_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_22(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_23(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_24(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.two_point_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_25(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.random_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_26(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.inversion_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def config_27(self):
-        length = self.population_size - 1
-
-        new_population = []
-        self.updated_mating_pool = []
-
-        new_population.append(self.best)
-
-        for _ in range(length):
-            parents = self.random_selection()
-            child = self.uniform_crossover(parents[0], parents[1])
-            self.scramble_mutation(child)
-            new_population.append(child)
-
-        self.population = new_population
-        self.updated_mating_pool = new_population
-
-    def create_new_generation(self):
-        self.config_function()
 
     def genetic_algorithm(self):
-        self.update_mating_pool()
+        self.mating_pool_updation()
         self.create_new_generation()
 
     def solve(self):
