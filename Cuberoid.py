@@ -1,8 +1,6 @@
 import os
 import pickle
 import sys
-import threading
-import queue
 
 import matplotlib.pyplot as plt
 
@@ -83,21 +81,7 @@ class Cuberoid:
             self.update_best_child(chromosome)
             self.population.append(chromosome)
 
-        if self.config_combination < 10:
-            for i in range(self.population_size):
-                count = ((((self.n ** 2) * 6) - self.population[i].get_fitness()) * 100)
-                for _ in range(0, count):
-                    self.updated_mating_pool.append(self.population[i])
-        elif 9 < self.config_combination < 19:
-            for i in range(self.population_size):
-                chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
-                chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-                if chromosome_1.get_fitness() > chromosome_2.get_fitness():
-                    self.updated_mating_pool.append(chromosome_1)
-                else:
-                    self.updated_mating_pool.append(chromosome_2)
-        else:
-            self.updated_mating_pool = self.population
+        self.mating_pool_updation()
 
     def update_best_child(self, child):
         if self.best is None or child.get_fitness() < self.best.get_fitness():
@@ -217,14 +201,7 @@ class Cuberoid:
     def create_new_generation(self):
         length = self.population_size - 1
 
-        new_population = []
-        self.updated_mating_pool = []
-
-        # adding the best child to the new population
-        new_population.append(self.best)
-
-        batch = int(length / 4)
-        last_batch = length - (3 * batch)
+        new_population = [self.best]
 
         for _ in range(length):
             parents = self.random_selection()
