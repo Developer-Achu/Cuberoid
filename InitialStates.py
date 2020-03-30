@@ -1,7 +1,7 @@
+import pickle
 import sys
 
 import numpy as np
-import pickle
 
 from CubeRotations import perform_cube_operations
 from DefineStates import *

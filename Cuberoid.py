@@ -181,8 +181,8 @@ class Cuberoid:
     def roulette_wheel(self):
         self.mating_pool = []
         for chromosome in self.population:
-            count = ((((self.n ** 2) * 6) - chromosome.get_fitness()) * 100)
-            for _ in range(0, count):
+            count = (((self.n ** 2) * 6) - chromosome.get_fitness())
+            for _ in range(count):
                 self.mating_pool.append(chromosome)
 
     def tournament(self):
@@ -233,7 +233,8 @@ class Cuberoid:
         print("=======================================")
         print("\n")
 
-        plt.plot(self.iteration_list, self.all_best_fitness, label="retry-" + str(self.retry))
+        plt.plot(self.iteration_list, self.all_best_fitness,
+                 label="retry-" + str(self.retry) + " best: " + str(self.best.get_fitness()))
 
         return self.best.get_fitness() == 0
 
