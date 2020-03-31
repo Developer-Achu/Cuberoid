@@ -18,6 +18,7 @@ class Cuberoid:
         self.mating_pool = []
         self.updated_mating_pool = []
         self.best = None
+        self.best_iteration = 0
         self.iteration = 0
         self.all_best_fitness = []
         self.iteration_list = []
@@ -86,6 +87,7 @@ class Cuberoid:
     def update_best_child(self, child):
         if self.best is None or child.get_fitness() < self.best.get_fitness():
             self.best = child.get_chromosome_copy()
+            self.best_iteration = self.iteration
             self.all_best_fitness.append(self.best.get_fitness())
             self.iteration_list.append(self.iteration)
             sys.stdout.write(
@@ -234,7 +236,8 @@ class Cuberoid:
         print("\n")
 
         plt.plot(self.iteration_list, self.all_best_fitness,
-                 label="retry-" + str(self.retry) + " best: " + str(self.best.get_fitness()))
+                 label="retry-" + str(self.retry) + ", best: " + str(self.best.get_fitness()) + " (" + str(
+                     self.best_iteration) + ")")
 
         return self.best.get_fitness() == 0
 
