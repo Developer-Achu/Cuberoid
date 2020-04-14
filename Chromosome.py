@@ -8,7 +8,7 @@ class Chromosome:
     def __init__(self, _side_0, _side_1, _side_2, _side_3, _side_4, _side_5, _length, _n):
         self.fitness = 0
         self.sides = []
-        self.genes = []
+        self.genes = None
 
         self.side_0 = _side_0
         self.side_1 = _side_1
@@ -26,16 +26,14 @@ class Chromosome:
         self.sides.append(np.reshape(self.side_4, (self.n, self.n)))
         self.sides.append(np.reshape(self.side_5, (self.n, self.n)))
 
-        for i in range(self.chromosome_length):
-            self.genes.append(get_a_state_change())
+        self.genes = get_n_state_change(self.chromosome_length)
 
     def compute_fitness(self):
         self.fitness = 0
-        for gene in self.genes:
-            cube_slice = get_cube_slice(gene[0], gene[1])
-            axis = get_cube_axis(gene[2], gene[3])
-            rotation = get_cube_rotation(gene[4], gene[5])
-
+        for i in range(0, len(self.genes), 6):
+            cube_slice = get_cube_slice(self.genes[i], self.genes[i + 1])
+            axis = get_cube_axis(self.genes[i + 2], self.genes[i + 3])
+            rotation = get_cube_rotation(self.genes[i + 4], self.genes[i + 5])
             if cube_slice != 0 and axis is not None and rotation != 0:
                 perform_cube_operations(self.n, self.sides, cube_slice, axis, rotation)
 

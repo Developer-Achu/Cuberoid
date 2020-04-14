@@ -103,10 +103,10 @@ class Cuberoid:
         child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
                            self.chromosome_length, self.n)
 
-        random_point = random.randint(0, self.chromosome_length - 1)
+        random_point = random.randint(0, self.chromosome_length * 6 - 1)
         child.genes = parent_1.genes[:]
 
-        for i in range(random_point, self.chromosome_length):
+        for i in range(random_point, self.chromosome_length * 6):
             child.genes[i] = parent_2.genes[i]
 
         return child
@@ -115,7 +115,7 @@ class Cuberoid:
         child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
                            self.chromosome_length, self.n)
 
-        random_indices = random.sample(range(self.chromosome_length), 2)
+        random_indices = random.sample(range(self.chromosome_length * 6), 2)
         start_index = min(random_indices)
         end_index = max(random_indices)
 
@@ -130,8 +130,9 @@ class Cuberoid:
         child = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
                            self.chromosome_length, self.n)
 
-        number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2) - 1)
-        random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
+        number_of_random_points = random.randint(int((self.chromosome_length * 6) / 4),
+                                                 int((self.chromosome_length * 6) / 2) - 1)
+        random_indices = random.sample(range(self.chromosome_length * 6), number_of_random_points)
 
         child.genes = parent_1.genes[:]
         for index in random_indices:
@@ -144,19 +145,26 @@ class Cuberoid:
             if random.random() < 0.5:
                 # random new gene
                 random_index = random.randint(0, self.chromosome_length - 1)
-                child.genes[random_index] = get_a_state_change()
+                start_index = random_index * 6
+                end_index = start_index + 6
+                new_gene = get_n_state_change(1)
+                gene_index = 0
+                for i in range(start_index, end_index):
+                    child.genes[i] = new_gene[gene_index]
+                    gene_index += 1
             else:
                 # flip a random bit on the gene
                 random_index = random.randint(0, self.chromosome_length - 1)
                 random_index_of_gene = random.randint(0, 5)
-                child.genes[random_index][random_index_of_gene] = (1 - child.genes[random_index][random_index_of_gene])
+                child.genes[random_index * 6 + random_index_of_gene] = (
+                        1 - child.genes[random_index * 6 + random_index_of_gene])
 
         child.compute_fitness()
         self.update_best_child(child)
 
     def inversion_mutation(self, child):
         if random.random() < self.mutation_rate:
-            random_indices = random.sample(range(self.chromosome_length), 2)
+            random_indices = random.sample(range(self.chromosome_length * 6), 2)
             start_index = min(random_indices)
             end_index = max(random_indices)
 
@@ -167,7 +175,7 @@ class Cuberoid:
 
     def scramble_mutation(self, child):
         if random.random() < self.mutation_rate:
-            random_indices = random.sample(range(self.chromosome_length), 2)
+            random_indices = random.sample(range(self.chromosome_length * 6), 2)
             start_index = min(random_indices)
             end_index = max(random_indices)
             indices_list = list(range(start_index, end_index + 1))
@@ -230,8 +238,9 @@ class Cuberoid:
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
-        if self.best.get_fitness() == 0:
-            print("Best solution moves: ", print_moves(self.best.genes))
+        print("Moves performed: ", print_moves(self.best.genes))
+        # if self.best.get_fitness() == 0:
+        #     pass
         print("=======================================")
         print("\n")
 
@@ -263,7 +272,7 @@ else:
 # retry = 1
 # chromosome_length = 10
 # population_size = 20
-# mutation_rate = 0.05
+# mutation_rate = 1
 # iterations = 5
 # slice_change_probability = 1
 # axis_change_probability = 1
