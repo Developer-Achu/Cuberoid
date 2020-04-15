@@ -357,7 +357,10 @@ list_of_configurations = pickle.load(file)
 
 for configuration in list_of_configurations:
     best_fitness_across_initializations = []
+    best_fitness = 0
+    seed_value = CubeConstants.seed
     for initialization in range(re_initializations):
+        CubeConstants.seed = seed_value
         print("initialization: " + str(initialization))
         print("chromosome length: " + str(chromosome_length))
 
@@ -376,7 +379,8 @@ for configuration in list_of_configurations:
 
         best_fitness_across_retries = []
         for retry in range(retries):
-            CubeConstants.seed = CubeConstants.seed + (initialization * 1000)
+            CubeConstants.seed = CubeConstants.seed + (retry * 1000)
+            random.seed(CubeConstants.seed)
             print("seed value: " + str(CubeConstants.seed))
             print("retry: " + str(retry))
             print("\n")

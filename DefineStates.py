@@ -59,4 +59,4 @@ def print_moves(genes):
         rotation = get_cube_rotation(move[4], move[5])
         if cube_slice != 0 and axis is not None and rotation != 0:
             converted_moves.append((cube_slice, axis, rotation))
-    print(converted_moves)
+    return converted_moves
