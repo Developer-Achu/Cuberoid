@@ -53,9 +53,20 @@ class Chromosome:
     def get_chromosome_copy(self):
         chromosome = Chromosome(self.side_0, self.side_1, self.side_2, self.side_3, self.side_4, self.side_5,
                                 self.chromosome_length, self.n)
-        chromosome.genes = self.genes[:]
+        chromosome.genes = []
+        for gene in self.genes:
+            new_gene = []
+            for pos in range(len(gene)):
+                new_gene.append(gene[pos])
+            chromosome.genes.append(new_gene)
+
         chromosome.fitness = self.get_fitness()
         return chromosome
 
     def set_genes(self, genes):
-        self.genes = genes[:]
+        self.genes = []
+        for gene in genes:
+            new_gene = []
+            for pos in range(len(gene)):
+                new_gene.append(gene[pos])
+            self.genes.append(new_gene)
