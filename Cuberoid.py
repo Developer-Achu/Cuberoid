@@ -193,7 +193,7 @@ class Cuberoid:
         for i in range(self.population_size):
             chromosome_1 = self.population[random.randint(0, self.population_size - 1)]
             chromosome_2 = self.population[random.randint(0, self.population_size - 1)]
-            if chromosome_1.get_fitness() > chromosome_2.get_fitness():
+            if chromosome_1.get_fitness() < chromosome_2.get_fitness():
                 self.mating_pool.append(chromosome_1)
             else:
                 self.mating_pool.append(chromosome_2)

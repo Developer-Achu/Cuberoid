@@ -22,4 +22,5 @@ for sheet in sheet_names:
 
 plt.boxplot(averages, showmeans=True)
 plt.xticks([i + 1 for i in range(len(sheet_names))], sheet_names, rotation=45)
-plt.savefig(CubeConstants.image_name)
+# plt.savefig(CubeConstants.image_name)
+plt.show()

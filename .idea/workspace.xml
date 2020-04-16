@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b73ef301-0d2f-4207-8d72-53a3341bf312" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/PlotGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CreateExcelSheet.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreateExcelSheet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CubeConstants.py" beforeDir="false" afterPath="$PROJECT_DIR$/CubeConstants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cuberoid.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cuberoid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlotGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlotGraph.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
