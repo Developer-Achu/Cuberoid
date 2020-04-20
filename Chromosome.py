@@ -32,11 +32,11 @@ class Chromosome:
     def compute_fitness(self):
         self.fitness = 0
         for gene in self.genes:
-            cube_slice = get_cube_slice(gene[0], gene[1])
-            axis = get_cube_axis(gene[2], gene[3])
-            rotation = get_cube_rotation(gene[4], gene[5])
+            cube_slice = (gene[0] * 2) + gene[1]
+            axis = (gene[2] * 2) + gene[3]
+            rotation = (gene[4] * 2) + gene[5]
 
-            if cube_slice != 0 and axis is not None and rotation != 0:
+            if cube_slice != 0 and axis != 0 and rotation != 0:
                 perform_cube_operations(self.n, self.sides, cube_slice, axis, rotation)
 
         for i in range(0, len(self.sides)):

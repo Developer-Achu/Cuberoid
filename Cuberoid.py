@@ -379,7 +379,7 @@ for configuration in list_of_configurations:
 
         best_fitness_across_retries = []
         for retry in range(retries):
-            CubeConstants.seed = CubeConstants.seed + (retry * 1000)
+            CubeConstants.seed = seed_value + (retry * 1000)
             random.seed(CubeConstants.seed)
             print("seed value: " + str(CubeConstants.seed))
             print("retry: " + str(retry))
@@ -389,8 +389,10 @@ for configuration in list_of_configurations:
             best_fitness_across_retries.append(best_fitness)
 
             if best_fitness == 0:
-                break
+                pass
+                #break
         best_fitness_across_initializations.append(best_fitness_across_retries)
         if best_fitness == 0:
-            break
+            pass
+            #break
     write_to_file(best_fitness_across_initializations, config_combination)

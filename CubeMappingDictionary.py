@@ -14,9 +14,44 @@ import CubeConstants as constants
     *****
 '''
 
+# cube_mapping_dictionary = {
+#     'x': {
+#         constants.rotating_sides: (0, 5),
+#         constants.moving_sides: {
+#             1: (1, True, True, False, 2),
+#             4: (1, False, True, True, 1),
+#             3: (-1, True, True, False, 4),
+#             2: (-1, False, True, True, 3),
+#         },
+#     },
+#
+#     'y': {
+#         constants.rotating_sides: (1, 3),
+#         constants.moving_sides: {
+#             0: (-1, True, False, False, 4),
+#             2: (-1, True, False, False, 0),
+#             5: (-1, True, False, False, 2),
+#             4: (-1, True, False, False, 5),
+#         },
+#     },
+#
+#     'z': {
+#         constants.rotating_sides: (2, 4),
+#         constants.moving_sides: {
+#             0: (1, False, False, False, 1),
+#             3: (1, False, False, False, 0),
+#             5: (-1, False, False, True, 3),
+#             1: (1, False, False, True, 5),
+#         },[0]
+#     }
+# }
+
 cube_mapping_dictionary = {
-    'x': {
-        constants.rotating_sides: (0, 5),
+    1: {
+        1: (0, 1),
+        2: (None, 0),
+        3: (5, 0),
+        # constants.rotating_sides: (0, 5),
         constants.moving_sides: {
             1: (1, True, True, False, 2),
             4: (1, False, True, True, 1),
@@ -25,8 +60,11 @@ cube_mapping_dictionary = {
         },
     },
 
-    'y': {
-        constants.rotating_sides: (1, 3),
+    2: {
+        1: (1, 1),
+        2: (None, 0),
+        3: (3, 0),
+        # constants.rotating_sides: (1, 3),
         constants.moving_sides: {
             0: (-1, True, False, False, 4),
             2: (-1, True, False, False, 0),
@@ -35,8 +73,11 @@ cube_mapping_dictionary = {
         },
     },
 
-    'z': {
-        constants.rotating_sides: (2, 4),
+    3: {
+        1: (2, 1),
+        2: (None, 0),
+        3: (4, 0),
+        # constants.rotating_sides: (2, 4),
         constants.moving_sides: {
             0: (1, False, False, False, 1),
             3: (1, False, False, False, 0),

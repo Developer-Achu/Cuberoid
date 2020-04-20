@@ -6,14 +6,10 @@ from CubeMappingDictionary import cube_mapping_dictionary
 
 def rotate_side(sides, rotating_side, rotation, is_clockwise):
     rotating_matrix = sides[rotating_side]
-    if is_clockwise:
-        for i in range(rotation):
-            rotating_matrix = rotating_matrix.T
-            rotating_matrix = np.flip(rotating_matrix, 1)
-    else:
-        for i in range(rotation):
-            rotating_matrix = np.flip(rotating_matrix, 1)
-            rotating_matrix = rotating_matrix.T
+
+    for i in range(rotation):
+        rotating_matrix = rotating_matrix.T
+        rotating_matrix = np.flip(rotating_matrix, is_clockwise)
 
     sides[rotating_side] = rotating_matrix
 
@@ -94,16 +90,10 @@ def move_colors(n, sides, moving_sides, cube_slice, rotation):
 
 
 def perform_cube_operations(n, sides, cube_slice, axis, rotation):
-    is_clockwise = False
     cube_map = cube_mapping_dictionary[axis]
-
-    if cube_slice == 1:
-        rotating_side = cube_map[constants.rotating_sides][0]
-        is_clockwise = True
-    elif cube_slice == n:
-        rotating_side = cube_map[constants.rotating_sides][1]
-    else:
-        rotating_side = None
+    side_direction_tuple = cube_map[cube_slice]
+    rotating_side = side_direction_tuple[0]
+    is_clockwise = side_direction_tuple[1]
 
     if rotating_side is not None:
         rotate_side(sides, rotating_side, rotation, is_clockwise)
