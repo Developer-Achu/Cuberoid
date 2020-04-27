@@ -10,7 +10,6 @@ random.seed(CubeConstants.seed)
 
 class Cuberoid:
     def __init__(self, _configuration, _n, _chromosome_length, _population_size, _mutation_rate, _max_iterations,
-                 _slice_change_probability, _axis_change_probability, _rotation_change_probability,
                  _config_combination):
         self.population = []
         self.initial_population = []
@@ -33,9 +32,6 @@ class Cuberoid:
         self.population_size = _population_size
         self.mutation_rate = _mutation_rate
         self.max_iterations = _max_iterations
-        self.slice_change_probability = _slice_change_probability
-        self.axis_change_probability = _axis_change_probability
-        self.rotation_change_probability = _rotation_change_probability
         self.config_combination = _config_combination
         self.config_dict = {
             1: (self.roulette_wheel, self.one_point_crossover, self.random_mutation),
@@ -270,31 +266,25 @@ def write_to_file(fitness_across_initializations, config_combination):
 
 
 n = 3
-if len(sys.argv) == 11:
+if len(sys.argv) == 8:
     re_initializations = int(sys.argv[1])
     retries = int(sys.argv[2])
     chromosome_length = int(sys.argv[3])
     population_size = int(sys.argv[4])
     mutation_rate = float(sys.argv[5])
     iterations = int(sys.argv[6])
-    slice_change_probability = float(sys.argv[7])
-    axis_change_probability = float(sys.argv[8])
-    rotation_change_probability = float(sys.argv[9])
-    config_combination = int(sys.argv[10])
+    config_combination = int(sys.argv[7])
 else:
     print("Invalid argument count")
     exit(0)
 
 # re_initializations = 1
 # retries = 1
-# chromosome_length = 10
-# population_size = 20
+# chromosome_length = 5
+# population_size = 10
 # mutation_rate = 0.05
-# iterations = 5
-# slice_change_probability = 1
-# axis_change_probability = 1
-# rotation_change_probability = 1
-# config_combination = 1
+# iterations = 1
+# config_combination = 4
 
 if config_combination == 1:
     print("Roulette selection --> one-point crossover --> random mutation")
@@ -371,9 +361,6 @@ for configuration in list_of_configurations:
             population_size,
             mutation_rate,
             iterations,
-            slice_change_probability,
-            axis_change_probability,
-            rotation_change_probability,
             config_combination
         )
 
@@ -389,10 +376,8 @@ for configuration in list_of_configurations:
             best_fitness_across_retries.append(best_fitness)
 
             if best_fitness == 0:
-                pass
-                #break
+                break
         best_fitness_across_initializations.append(best_fitness_across_retries)
         if best_fitness == 0:
-            pass
-            #break
+            break
     write_to_file(best_fitness_across_initializations, config_combination)
