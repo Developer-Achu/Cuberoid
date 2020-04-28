@@ -52,10 +52,10 @@ for state in range(total_states):
     scramble_size = random.randint(1, max_scramble_size)
     for scramble in range(scramble_size):
         cube_parameters = get_a_state_change()
-        cube_slice = get_cube_slice(cube_parameters[0], cube_parameters[1])
-        axis = get_cube_axis(cube_parameters[2], cube_parameters[3])
-        rotation = get_cube_rotation(cube_parameters[4], cube_parameters[5])
-        if cube_slice != 0 and axis is not None and rotation != 0:
+        cube_slice = (cube_parameters[0] * 2) + cube_parameters[1]
+        axis = (cube_parameters[2] * 2) + cube_parameters[3]
+        rotation = (cube_parameters[4] * 2) + cube_parameters[5]
+        if cube_slice != 0 and axis != 0 and rotation != 0:
             actual_moves += 1  #
             moves.append((cube_slice, axis, rotation))  #
             perform_cube_operations(n, sides, cube_slice, axis, rotation)
