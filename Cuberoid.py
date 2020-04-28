@@ -123,7 +123,7 @@ class Cuberoid:
         return parent_1
 
     def uniform_crossover(self, parent_1, parent_2):
-        number_of_random_points = random.randint(int(self.chromosome_length / 4), int(self.chromosome_length / 2) - 1)
+        number_of_random_points = random.randint(0, self.chromosome_length - 1)
         random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
 
         for index in random_indices:
