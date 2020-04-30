@@ -10,7 +10,7 @@ random.seed(CubeConstants.seed)
 
 class Cuberoid:
     def __init__(self, _configuration, _n, _chromosome_length, _population_size, _mutation_rate, _max_iterations,
-                 _config_combination):
+                 _elite, _config_combination):
         self.population = []
         self.initial_population = []
         self.mating_pool = []
@@ -32,6 +32,7 @@ class Cuberoid:
         self.population_size = _population_size
         self.mutation_rate = _mutation_rate
         self.max_iterations = _max_iterations
+        self.elite = _elite
         self.config_combination = _config_combination
         self.config_dict = {
             1: (self.roulette_wheel, self.one_point_crossover, self.random_mutation),
@@ -123,11 +124,9 @@ class Cuberoid:
         return parent_1
 
     def uniform_crossover(self, parent_1, parent_2):
-        number_of_random_points = random.randint(0, self.chromosome_length - 1)
-        random_indices = random.sample(range(self.chromosome_length), number_of_random_points)
-
-        for index in random_indices:
-            parent_1.genes[index] = parent_2.genes[index]
+        for i in range(self.chromosome_length):
+            if random.random() < self.mutation_rate:
+                parent_1.genes[i] = parent_2.genes[i]
 
         return parent_1
 
@@ -197,10 +196,59 @@ class Cuberoid:
     def no_selection(self):
         self.mating_pool = self.population
 
-    def create_new_generation(self):
-        length = self.population_size - 1
+    def gen_replacement(self, new_population):
+        x = int(self.population_size * self.elite / 100)
 
-        new_population = [self.best]
+        best_x = []
+        worst_in_best = 0
+        worst_in_best_pos = 0
+
+        worst_x = []
+        best_in_worst = (self.n ** 2) * 6
+        best_in_worst_pos = 0
+
+        for i in range(x):
+            best_x.append(self.population[i])
+            if self.population[i].get_fitness() > worst_in_best:
+                worst_in_best = self.population[i].get_fitness()
+                worst_in_best_pos = i
+
+            worst_x.append(new_population[i])
+            if new_population[i].get_fitness() < best_in_worst:
+                best_in_worst = new_population[i].get_fitness()
+                best_in_worst_pos = i
+
+        for i in range(x, self.population_size):
+            if self.population[i].get_fitness() < worst_in_best:
+                best_x[worst_in_best_pos] = self.population[i]
+                worst_in_best = self.population[i].get_fitness()
+                for best_pos in range(0, x):
+                    if best_x[best_pos].get_fitness() > worst_in_best:
+                        worst_in_best = best_x[best_pos].get_fitness()
+                        worst_in_best_pos = best_pos
+
+            if new_population[i].get_fitness() > best_in_worst:
+                worst_x[best_in_worst_pos] = new_population[i]
+                best_in_worst = new_population[i].get_fitness()
+                for worst_pos in range(0, x):
+                    if worst_x[worst_pos].get_fitness() < best_in_worst:
+                        best_in_worst = worst_x[worst_pos].get_fitness()
+                        best_in_worst_pos = worst_pos
+
+        pos = 0
+        for i in range(self.population_size):
+            if new_population[i].get_fitness() >= best_in_worst:
+                new_population[i] = best_x[pos]
+                pos += 1
+                if pos == x:
+                    break
+
+        self.population = new_population
+
+    def create_new_generation(self):
+        length = self.population_size
+
+        new_population = []
 
         for _ in range(length):
             parents = self.random_selection()
@@ -208,11 +256,18 @@ class Cuberoid:
             self.mutation(child)
             new_population.append(child)
 
-        self.population = new_population
+        self.gen_replacement(new_population)
 
     def genetic_algorithm(self):
         self.mating_pool_updation()
         self.create_new_generation()
+
+    def find_average_fitness(self):
+        total = 0
+        for chromosome in self.population:
+            total += chromosome.get_fitness()
+
+        return total / len(self.population)
 
     def solve(self):
         self.iteration = 0
@@ -227,6 +282,7 @@ class Cuberoid:
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
+        print("Average fitness of the population: ", self.find_average_fitness())
         if self.best.get_fitness() == 0:
             print("Best solution moves: ", print_moves(self.best.genes))
         print("=======================================")
@@ -266,14 +322,15 @@ def write_to_file(fitness_across_initializations, config_combination):
 
 
 n = 3
-if len(sys.argv) == 8:
+if len(sys.argv) == 9:
     re_initializations = int(sys.argv[1])
     retries = int(sys.argv[2])
     chromosome_length = int(sys.argv[3])
     population_size = int(sys.argv[4])
     mutation_rate = float(sys.argv[5])
     iterations = int(sys.argv[6])
-    config_combination = int(sys.argv[7])
+    elite = float(sys.argv[7])
+    config_combination = int(sys.argv[8])
 else:
     print("Invalid argument count")
     exit(0)
@@ -284,6 +341,7 @@ else:
 # population_size = 10
 # mutation_rate = 0.05
 # iterations = 1
+# elite = 0
 # config_combination = 4
 
 if config_combination == 1:
@@ -361,6 +419,7 @@ for configuration in list_of_configurations:
             population_size,
             mutation_rate,
             iterations,
+            elite,
             config_combination
         )
 
@@ -380,4 +439,4 @@ for configuration in list_of_configurations:
         best_fitness_across_initializations.append(best_fitness_across_retries)
         if best_fitness == 0:
             break
-    write_to_file(best_fitness_across_initializations, config_combination)
+    # write_to_file(best_fitness_across_initializations, config_combination)
