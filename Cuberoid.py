@@ -124,9 +124,10 @@ class Cuberoid:
         return parent_1
 
     def uniform_crossover(self, parent_1, parent_2):
-        for i in range(self.chromosome_length):
-            if random.random() < self.mutation_rate:
-                parent_1.genes[i] = parent_2.genes[i]
+        if random.random() < self.mutation_rate:
+            for i in range(self.chromosome_length):
+                if random.random() < 0.5:
+                    parent_1.genes[i] = parent_2.genes[i]
 
         return parent_1
 
@@ -282,7 +283,7 @@ class Cuberoid:
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
-        print("Average fitness of the population: ", self.find_average_fitness())
+        print("Average fitness of the final generation: ", self.find_average_fitness())
         if self.best.get_fitness() == 0:
             print("Best solution moves: ", print_moves(self.best.genes))
         print("=======================================")
@@ -291,7 +292,8 @@ class Cuberoid:
         return self.best.get_fitness()
 
 
-def write_to_file(fitness_across_initializations, config_combination):
+def write_to_file(fitness_across_initializations, config_combination, population_size, mutation_rate, iterations,
+                  elite):
     try:
         os.mkdir(CubeConstants.directory_name)
     except:
@@ -310,7 +312,8 @@ def write_to_file(fitness_across_initializations, config_combination):
             data_dict.update({
                 "r-" + str(r): retries
             })
-    file_name = CubeConstants.directory_name + CubeConstants.file_name + str(config_combination)
+    file_name = CubeConstants.directory_name + CubeConstants.file_name + str(population_size) + "-" + str(
+        mutation_rate) + "-" + str(iterations) + "-" + str(elite) + "-" + str(config_combination)
     with open(file_name, 'w') as file:
         for key in data_dict.keys():
             file.write(key)
@@ -435,8 +438,11 @@ for configuration in list_of_configurations:
             best_fitness_across_retries.append(best_fitness)
 
             if best_fitness == 0:
-                break
+                pass
+                # break
         best_fitness_across_initializations.append(best_fitness_across_retries)
         if best_fitness == 0:
-            break
-    # write_to_file(best_fitness_across_initializations, config_combination)
+            pass
+            # break
+    write_to_file(best_fitness_across_initializations, config_combination, population_size, mutation_rate, iterations,
+                  elite)
