@@ -2,6 +2,8 @@ import os
 import pickle
 import sys
 
+import matplotlib.pyplot as plt
+
 from Chromosome import *
 from DefineStates import *
 
@@ -20,6 +22,8 @@ class Cuberoid:
         self.iteration = 0
         self.all_best_fitness = []
         self.iteration_list = []
+        self.all_avg_fitness = []
+        self.each_best_fitness = []
 
         self.side_0 = _configuration[0]
         self.side_1 = _configuration[1]
@@ -124,10 +128,9 @@ class Cuberoid:
         return parent_1
 
     def uniform_crossover(self, parent_1, parent_2):
-        if random.random() < self.mutation_rate:
-            for i in range(self.chromosome_length):
-                if random.random() < 0.5:
-                    parent_1.genes[i] = parent_2.genes[i]
+        for i in range(self.chromosome_length):
+            if random.random() < 0.5:
+                parent_1.genes[i] = parent_2.genes[i]
 
         return parent_1
 
@@ -272,18 +275,22 @@ class Cuberoid:
 
     def solve(self):
         self.iteration = 0
+        self.each_best_fitness = []
+        self.all_avg_fitness = []
         while self.best.get_fitness() != 0 and self.iteration < self.max_iterations:
             if self.iteration % 100 == 0:
                 sys.stdout.write("\r%s%d" % ("Iteration : ", self.iteration))
                 sys.stdout.flush()
             self.genetic_algorithm()
+            self.each_best_fitness.append(self.best.get_fitness())
+            self.all_avg_fitness.append(self.find_average_fitness())
             self.iteration += 1
 
         # self.all_best_fitness.append(self.best.get_fitness())
         print("\nPopulation size:", self.population_size)
         print("Total iterations: ", self.iteration)
         print("Best fitness: ", self.best.get_fitness())
-        print("Average fitness of the final generation: ", self.find_average_fitness())
+        # print("Average fitness of the final generation: ", self.find_average_fitness())
         if self.best.get_fitness() == 0:
             print("Best solution moves: ", print_moves(self.best.genes))
         print("=======================================")
@@ -314,6 +321,7 @@ def write_to_file(fitness_across_initializations, config_combination, population
             })
     file_name = CubeConstants.directory_name + CubeConstants.file_name + str(population_size) + "-" + str(
         mutation_rate) + "-" + str(iterations) + "-" + str(elite) + "-" + str(config_combination)
+    # file_name = CubeConstants.directory_name + CubeConstants.file_name + str(config_combination)
     with open(file_name, 'w') as file:
         for key in data_dict.keys():
             file.write(key)
@@ -322,6 +330,39 @@ def write_to_file(fitness_across_initializations, config_combination, population
                 file.write(" " + str(element))
             file.write("\n")
     file.close()
+
+
+def plot_graph(each_best_fitness, all_avg_fitness, current_path, initialization, retry):
+    plt.figure()
+    plt.plot(np.arange(0, len(all_avg_fitness)), all_avg_fitness, label="Average fitness")
+    plt.plot(np.arange(0, len(each_best_fitness)), each_best_fitness,
+             label="Best fitness = " + str(each_best_fitness[-1]))
+    plt.legend()
+    plt.savefig(current_path + "fig-i" + str(initialization) + "r" + str(retry))
+    plt.close()
+
+
+# def write_evaluation_results(best_fitness_across_initializations, best_iteration_across_initializations,
+#                              population_size, mutation_rate, iterations, elite):
+#     try:
+#         os.mkdir(CubeConstants.evaluation_directory_name)
+#     except:
+#         pass
+#
+#     file_name = CubeConstants.evaluation_directory_name + CubeConstants.file_name + str(population_size) + "-" + str(
+#         mutation_rate) + "-" + str(iterations) + "-" + str(elite) + "-" + str(config_combination)
+#     with open(file_name, 'w') as file:
+#         for i in range(len(best_fitness_across_initializations)):
+#             file.write("i:" + str(i))
+#             file.write("\n")
+#             for j in range(len(best_fitness_across_initializations[i])):
+#                 file.write(
+#                     str(best_iteration_across_initializations[i][j]) + ":" + str(
+#                         best_fitness_across_initializations[i][j]))
+#                 file.write("\n")
+#             file.write("plot:" + str(i))
+#             file.write("\n")
+#     file.close()
 
 
 n = 3
@@ -406,10 +447,22 @@ file_name = str(n) + "x" + str(n)
 file = open(file_name, "rb")
 list_of_configurations = pickle.load(file)
 
-for configuration in list_of_configurations:
+try:
+    os.mkdir(CubeConstants.evaluation_directory_name)
+except:
+    pass
+
+for index, configuration in enumerate(list_of_configurations):
+    current_path = CubeConstants.evaluation_directory_name + "Orientation-" + str(index + 1) + "/"
+    try:
+        os.mkdir(current_path)
+    except:
+        pass
     best_fitness_across_initializations = []
+    best_iteration_across_initializations = []
     best_fitness = 0
     seed_value = CubeConstants.seed
+    print("Cube orientation: " + str(index + 1))
     for initialization in range(re_initializations):
         CubeConstants.seed = seed_value
         print("initialization: " + str(initialization))
@@ -435,14 +488,19 @@ for configuration in list_of_configurations:
             print("\n")
             cuberoid.initialize_generation()
             best_fitness = cuberoid.solve()
-            best_fitness_across_retries.append(best_fitness)
+            # best_fitness_across_retries.append(best_fitness)
 
+            plot_graph(cuberoid.each_best_fitness, cuberoid.all_avg_fitness, current_path, initialization, retry)
             if best_fitness == 0:
-                pass
-                # break
-        best_fitness_across_initializations.append(best_fitness_across_retries)
+                # pass
+                break
+        # best_fitness_across_initializations.append(best_fitness_across_retries)
+        # best_fitness_across_initializations.append(cuberoid.all_best_fitness)
+        # best_iteration_across_initializations.append(cuberoid.iteration_list)
         if best_fitness == 0:
-            pass
-            # break
-    write_to_file(best_fitness_across_initializations, config_combination, population_size, mutation_rate, iterations,
-                  elite)
+            # pass
+            break
+    # write_evaluation_results(best_fitness_across_initializations, best_iteration_across_initializations,
+    #                          population_size, mutation_rate, iterations, elite)
+    # write_to_file(best_fitness_across_initializations, config_combination, population_size, mutation_rate, iterations,
+    #               elite)

@@ -38,7 +38,7 @@ else:
 #                 "No\nOne-point\nScramble",
 #             ]
 #         },
-#
+# 
 #         "Combination of selections (two)": {
 #             "sheet_names": [
 #                 "Config-4",
@@ -63,7 +63,7 @@ else:
 #                 "No\nTwo-point\nScramble",
 #             ]
 #         },
-#
+# 
 #         "Combination of selections (uniform)": {
 #             "sheet_names": [
 #                 "Config-7",
@@ -89,7 +89,7 @@ else:
 #             ]
 #         },
 #     },
-#
+# 
 #     "crossover": {
 #         "Combination of crossover (roulette)": {
 #             "sheet_names": [
@@ -115,7 +115,7 @@ else:
 #                 "Uniform\nRoulette\nScramble",
 #             ]
 #         },
-#
+# 
 #         "Combination of crossover (tournament)": {
 #             "sheet_names": [
 #                 "Config-10",
@@ -140,7 +140,7 @@ else:
 #                 "Uniform\nTournament\nScramble",
 #             ]
 #         },
-#
+# 
 #         "Combination of crossover (No)": {
 #             "sheet_names": [
 #                 "Config-19",
@@ -165,9 +165,9 @@ else:
 #                 "Uniform\nNo\nScramble",
 #             ]
 #         },
-#
+# 
 #     },
-#
+# 
 #     "mutation": {
 #         "Combination of mutation (roulette)": {
 #             "sheet_names": [
@@ -193,7 +193,7 @@ else:
 #                 "Scramble\nRoulette\nUniform",
 #             ]
 #         },
-#
+# 
 #         "Combination of mutation (tournament)": {
 #             "sheet_names": [
 #                 "Config-10",
@@ -218,7 +218,7 @@ else:
 #                 "Scramble\nTournament\nUniform",
 #             ]
 #         },
-#
+# 
 #         "Combination of mutation (no)": {
 #             "sheet_names": [
 #                 "Config-19",
@@ -243,9 +243,9 @@ else:
 #                 "Scramble\nNo\nUniform",
 #             ]
 #         },
-#
+# 
 #     },
-#
+# 
 #     "all": {
 #         "Combination of all": {
 #             "sheet_names": [
@@ -308,7 +308,7 @@ else:
 #             ]
 #         },
 #     },
-#
+# 
 #     "baseline and best": {
 #         "Baseline and best": {
 #             "sheet_names": [
@@ -321,14 +321,14 @@ else:
 #             ]
 #         },
 #     }
-#
+# 
 # }
 
 sheet_names_map = {
     "baseline": {
-        "Baseline configuration (Roulette wheel --> Two-point crossover --> Random mutation)": {
+        "Baseline parameters": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
+                "Config-100-0.05-2000-1.0-4",
             ],
             "config_labels": [
                 "Baseline\npop-size = 100\nmutation-rate=0.05\ngenerations=2000\nelitism=1%",
@@ -336,70 +336,233 @@ sheet_names_map = {
         },
     },
 
-    "population_size": {
-        "Changing the population size": {
+    "population-size": {
+        "Population size 100": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-50-0.05-2000-1.0",
-                "Config-200-0.05-2000-1.0",
-                "Config-300-0.05-2000-1.0",
+                "Config-100-0.05-2000-1.0-4",
+                "Config-100-0.05-2000-2.0-4",
+                "Config-100-0.05-2000-3.0-4",
+                "Config-100-0.1-2000-1.0-4",
+                "Config-100-0.1-2000-2.0-4",
+                "Config-100-0.1-2000-3.0-4",
+                "Config-100-0.15-2000-1.0-4",
+                "Config-100-0.15-2000-2.0-4",
+                "Config-100-0.15-2000-3.0-4",
             ],
             "config_labels": [
-                "Baseline, pop-size = 100",
-                "pop-size = 50",
-                "pop-size = 200",
-                "pop-size = 300",
+                "mutation-rate: 0.05\nElitism: 1%",
+                "mutation-rate: 0.05\nElitism: 2%",
+                "mutation-rate: 0.05\nElitism: 3%",
+                "mutation-rate: 0.1\nElitism: 1%",
+                "mutation-rate: 0.1\nElitism: 2%",
+                "mutation-rate: 0.1\nElitism: 3%",
+                "mutation-rate: 0.15\nElitism: 1%",
+                "mutation-rate: 0.15\nElitism: 2%",
+                "mutation-rate: 0.15\nElitism: 3%",
+            ]
+        },
+
+        "Population size 200": {
+            "sheet_names": [
+                "Config-200-0.05-2000-1.0-4",
+                "Config-200-0.05-2000-2.0-4",
+                "Config-200-0.05-2000-3.0-4",
+                "Config-200-0.1-2000-1.0-4",
+                "Config-200-0.1-2000-2.0-4",
+                "Config-200-0.1-2000-3.0-4",
+                "Config-200-0.15-2000-1.0-4",
+                "Config-200-0.15-2000-2.0-4",
+                "Config-200-0.15-2000-3.0-4",
+            ],
+            "config_labels": [
+                "mutation-rate: 0.05\nElitism: 1%",
+                "mutation-rate: 0.05\nElitism: 2%",
+                "mutation-rate: 0.05\nElitism: 3%",
+                "mutation-rate: 0.1\nElitism: 1%",
+                "mutation-rate: 0.1\nElitism: 2%",
+                "mutation-rate: 0.1\nElitism: 3%",
+                "mutation-rate: 0.15\nElitism: 1%",
+                "mutation-rate: 0.15\nElitism: 2%",
+                "mutation-rate: 0.15\nElitism: 3%",
+            ]
+        },
+
+        "Population size 300": {
+            "sheet_names": [
+                "Config-300-0.05-2000-1.0-4",
+                "Config-300-0.05-2000-2.0-4",
+                "Config-300-0.05-2000-3.0-4",
+                "Config-300-0.1-2000-1.0-4",
+                "Config-300-0.1-2000-2.0-4",
+                "Config-300-0.1-2000-3.0-4",
+                "Config-300-0.15-2000-1.0-4",
+                "Config-300-0.15-2000-2.0-4",
+                "Config-300-0.15-2000-3.0-4",
+            ],
+            "config_labels": [
+                "mutation-rate: 0.05\nElitism: 1%",
+                "mutation-rate: 0.05\nElitism: 2%",
+                "mutation-rate: 0.05\nElitism: 3%",
+                "mutation-rate: 0.1\nElitism: 1%",
+                "mutation-rate: 0.1\nElitism: 2%",
+                "mutation-rate: 0.1\nElitism: 3%",
+                "mutation-rate: 0.15\nElitism: 1%",
+                "mutation-rate: 0.15\nElitism: 2%",
+                "mutation-rate: 0.15\nElitism: 3%",
             ]
         },
     },
 
-    "mutation_rate": {
-        "Changing the mutation rate": {
+    "mutation-rate": {
+        "Mutation rate 0_05": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-100-0.01-2000-1.0",
-                "Config-100-0.1-2000-1.0",
-                "Config-100-0.15-2000-1.0",
+                "Config-100-0.05-2000-1.0-4",
+                "Config-100-0.05-2000-2.0-4",
+                "Config-100-0.05-2000-3.0-4",
+                "Config-200-0.05-2000-1.0-4",
+                "Config-200-0.05-2000-2.0-4",
+                "Config-200-0.05-2000-3.0-4",
+                "Config-300-0.05-2000-1.0-4",
+                "Config-300-0.05-2000-2.0-4",
+                "Config-300-0.05-2000-3.0-4",
             ],
             "config_labels": [
-                "Baseline, mut-rate = 0.05",
-                "mut-rate = 0.01",
-                "mut-rate = 0.1",
-                "mut-rate = 0.15",
+                "population-size: 100\nElitism: 1%",
+                "population-size: 100\nElitism: 2%",
+                "population-size: 100\nElitism: 3%",
+                "population-size: 200\nElitism: 1%",
+                "population-size: 200\nElitism: 2%",
+                "population-size: 200\nElitism: 3%",
+                "population-size: 300\nElitism: 1%",
+                "population-size: 300\nElitism: 2%",
+                "population-size: 300\nElitism: 3%",
             ]
         },
-    },
 
-    "iterations": {
-        "Changing the number of generations": {
+        "Mutation rate 0_1": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-100-0.05-1000-1.0",
-                "Config-100-0.05-3000-1.0",
-                "Config-100-0.05-5000-1.0",
+                "Config-100-0.1-2000-1.0-4",
+                "Config-100-0.1-2000-2.0-4",
+                "Config-100-0.1-2000-3.0-4",
+                "Config-200-0.1-2000-1.0-4",
+                "Config-200-0.1-2000-2.0-4",
+                "Config-200-0.1-2000-3.0-4",
+                "Config-300-0.1-2000-1.0-4",
+                "Config-300-0.1-2000-2.0-4",
+                "Config-300-0.1-2000-3.0-4",
             ],
             "config_labels": [
-                "Baseline, generations = 2000",
-                "generations = 1000",
-                "generations = 3000",
-                "generations = 5000",
+                "population-size: 100\nElitism: 1%",
+                "population-size: 100\nElitism: 2%",
+                "population-size: 100\nElitism: 3%",
+                "population-size: 200\nElitism: 1%",
+                "population-size: 200\nElitism: 2%",
+                "population-size: 200\nElitism: 3%",
+                "population-size: 300\nElitism: 1%",
+                "population-size: 300\nElitism: 2%",
+                "population-size: 300\nElitism: 3%",
+            ]
+        },
+
+        "Mutation rate 0_15": {
+            "sheet_names": [
+                "Config-100-0.15-2000-1.0-4",
+                "Config-100-0.15-2000-2.0-4",
+                "Config-100-0.15-2000-3.0-4",
+                "Config-200-0.15-2000-1.0-4",
+                "Config-200-0.15-2000-2.0-4",
+                "Config-200-0.15-2000-3.0-4",
+                "Config-300-0.15-2000-1.0-4",
+                "Config-300-0.15-2000-2.0-4",
+                "Config-300-0.15-2000-3.0-4",
+            ],
+            "config_labels": [
+                "population-size: 100\nElitism: 1%",
+                "population-size: 100\nElitism: 2%",
+                "population-size: 100\nElitism: 3%",
+                "population-size: 200\nElitism: 1%",
+                "population-size: 200\nElitism: 2%",
+                "population-size: 200\nElitism: 3%",
+                "population-size: 300\nElitism: 1%",
+                "population-size: 300\nElitism: 2%",
+                "population-size: 300\nElitism: 3%",
             ]
         },
     },
 
     "elitism": {
-        "Changing the elitism value": {
+        "Elitism 1": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-100-0.05-2000-0.0",
-                "Config-100-0.05-2000-10.0",
-                "Config-100-0.05-2000-25.0",
+                "Config-100-0.05-2000-1.0-4",
+                "Config-100-0.1-2000-1.0-4",
+                "Config-100-0.15-2000-1.0-4",
+                "Config-200-0.05-2000-1.0-4",
+                "Config-200-0.1-2000-1.0-4",
+                "Config-200-0.15-2000-1.0-4",
+                "Config-300-0.05-2000-1.0-4",
+                "Config-300-0.1-2000-1.0-4",
+                "Config-300-0.15-2000-1.0-4",
             ],
             "config_labels": [
-                "Baseline, elitism = 1%",
-                "elitism = 0%",
-                "elitism = 10%",
-                "elitism = 25%",
+                "population-size: 100\nMutation-rate: 0.05",
+                "population-size: 100\nMutation-rate: 0.1",
+                "population-size: 100\nMutation-rate: 0.15",
+                "population-size: 200\nMutation-rate: 0.05",
+                "population-size: 200\nMutation-rate: 0.1",
+                "population-size: 200\nMutation-rate: 0.15",
+                "population-size: 300\nMutation-rate: 0.05",
+                "population-size: 300\nMutation-rate: 0.1",
+                "population-size: 300\nMutation-rate: 0.15",
+            ]
+        },
+
+        "Elitism 2": {
+            "sheet_names": [
+                "Config-100-0.05-2000-2.0-4",
+                "Config-100-0.1-2000-2.0-4",
+                "Config-100-0.15-2000-2.0-4",
+                "Config-200-0.05-2000-2.0-4",
+                "Config-200-0.1-2000-2.0-4",
+                "Config-200-0.15-2000-2.0-4",
+                "Config-300-0.05-2000-2.0-4",
+                "Config-300-0.1-2000-2.0-4",
+                "Config-300-0.15-2000-2.0-4",
+            ],
+            "config_labels": [
+                "population-size: 100\nMutation-rate: 0.05",
+                "population-size: 100\nMutation-rate: 0.1",
+                "population-size: 100\nMutation-rate: 0.15",
+                "population-size: 200\nMutation-rate: 0.05",
+                "population-size: 200\nMutation-rate: 0.1",
+                "population-size: 200\nMutation-rate: 0.15",
+                "population-size: 300\nMutation-rate: 0.05",
+                "population-size: 300\nMutation-rate: 0.1",
+                "population-size: 300\nMutation-rate: 0.15",
+            ]
+        },
+
+        "Elitism 3": {
+            "sheet_names": [
+                "Config-100-0.05-2000-3.0-4",
+                "Config-100-0.1-2000-3.0-4",
+                "Config-100-0.15-2000-3.0-4",
+                "Config-200-0.05-2000-3.0-4",
+                "Config-200-0.1-2000-3.0-4",
+                "Config-200-0.15-2000-3.0-4",
+                "Config-300-0.05-2000-3.0-4",
+                "Config-300-0.1-2000-3.0-4",
+                "Config-300-0.15-2000-3.0-4",
+            ],
+            "config_labels": [
+                "population-size: 100\nMutation-rate: 0.05",
+                "population-size: 100\nMutation-rate: 0.1",
+                "population-size: 100\nMutation-rate: 0.15",
+                "population-size: 200\nMutation-rate: 0.05",
+                "population-size: 200\nMutation-rate: 0.1",
+                "population-size: 200\nMutation-rate: 0.15",
+                "population-size: 300\nMutation-rate: 0.05",
+                "population-size: 300\nMutation-rate: 0.1",
+                "population-size: 300\nMutation-rate: 0.15",
             ]
         },
     },
@@ -407,34 +570,62 @@ sheet_names_map = {
     "all": {
         "Combination of all": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-50-0.05-2000-1.0",
-                "Config-200-0.05-2000-1.0",
-                "Config-300-0.05-2000-1.0",
-                "Config-100-0.01-2000-1.0",
-                "Config-100-0.1-2000-1.0",
-                "Config-100-0.15-2000-1.0",
-                "Config-100-0.05-1000-1.0",
-                "Config-100-0.05-3000-1.0",
-                "Config-100-0.05-5000-1.0",
-                "Config-100-0.05-2000-0.0",
-                "Config-100-0.05-2000-10.0",
-                "Config-100-0.05-2000-25.0",
+                "Config-100-0.05-2000-1.0-4",
+                "Config-100-0.05-2000-2.0-4",
+                "Config-100-0.05-2000-3.0-4",
+                "Config-100-0.1-2000-1.0-4",
+                "Config-100-0.1-2000-2.0-4",
+                "Config-100-0.1-2000-3.0-4",
+                "Config-100-0.15-2000-1.0-4",
+                "Config-100-0.15-2000-2.0-4",
+                "Config-100-0.15-2000-3.0-4",
+                "Config-200-0.05-2000-1.0-4",
+                "Config-200-0.05-2000-2.0-4",
+                "Config-200-0.05-2000-3.0-4",
+                "Config-200-0.1-2000-1.0-4",
+                "Config-200-0.1-2000-2.0-4",
+                "Config-200-0.1-2000-3.0-4",
+                "Config-200-0.15-2000-1.0-4",
+                "Config-200-0.15-2000-2.0-4",
+                "Config-200-0.15-2000-3.0-4",
+                "Config-300-0.05-2000-1.0-4",
+                "Config-300-0.05-2000-2.0-4",
+                "Config-300-0.05-2000-3.0-4",
+                "Config-300-0.1-2000-1.0-4",
+                "Config-300-0.1-2000-2.0-4",
+                "Config-300-0.1-2000-3.0-4",
+                "Config-300-0.15-2000-1.0-4",
+                "Config-300-0.15-2000-2.0-4",
+                "Config-300-0.15-2000-3.0-4",
             ],
             "config_labels": [
-                "Baseline",
-                "pop-size=50",
-                "pop-size=200",
-                "pop-size=300",
-                "mut-rate=0.01",
-                "mut-rate=0.1",
-                "mut-rate=0.15",
-                "generations=1000",
-                "generations=3000",
-                "generations=5000",
-                "elitism=0%",
-                "elitism=10%",
-                "elitism=25%",
+                "population-size: 100\nmutation-rate: 0.05\nElitism: 1%",
+                "population-size: 100\nmutation-rate: 0.05\nElitism: 2%",
+                "population-size: 100\nmutation-rate: 0.05\nElitism: 3%",
+                "population-size: 100\nmutation-rate: 0.1\nElitism: 1%",
+                "population-size: 100\nmutation-rate: 0.1\nElitism: 2%",
+                "population-size: 100\nmutation-rate: 0.1\nElitism: 3%",
+                "population-size: 100\nmutation-rate: 0.15\nElitism: 1%",
+                "population-size: 100\nmutation-rate: 0.15\nElitism: 2%",
+                "population-size: 100\nmutation-rate: 0.15\nElitism: 3%",
+                "population-size: 200\nmutation-rate: 0.05\nElitism: 1%",
+                "population-size: 200\nmutation-rate: 0.05\nElitism: 2%",
+                "population-size: 200\nmutation-rate: 0.05\nElitism: 3%",
+                "population-size: 200\nmutation-rate: 0.1\nElitism: 1%",
+                "population-size: 200\nmutation-rate: 0.1\nElitism: 2%",
+                "population-size: 200\nmutation-rate: 0.1\nElitism: 3%",
+                "population-size: 200\nmutation-rate: 0.15\nElitism: 1%",
+                "population-size: 200\nmutation-rate: 0.15\nElitism: 2%",
+                "population-size: 200\nmutation-rate: 0.15\nElitism: 3%",
+                "population-size: 300\nmutation-rate: 0.05\nElitism: 1%",
+                "population-size: 300\nmutation-rate: 0.05\nElitism: 2%",
+                "population-size: 300\nmutation-rate: 0.05\nElitism: 3%",
+                "population-size: 300\nmutation-rate: 0.1\nElitism: 1%",
+                "population-size: 300\nmutation-rate: 0.1\nElitism: 2%",
+                "population-size: 300\nmutation-rate: 0.1\nElitism: 3%",
+                "population-size: 300\nmutation-rate: 0.15\nElitism: 1%",
+                "population-size: 300\nmutation-rate: 0.15\nElitism: 2%",
+                "population-size: 300\nmutation-rate: 0.15\nElitism: 3%",
             ]
         },
     },
@@ -442,12 +633,12 @@ sheet_names_map = {
     "baseline and best": {
         "Baseline and best": {
             "sheet_names": [
-                "Config-100-0.05-2000-1.0",
-                "Config-300-0.05-5000-1.0",
+                "Config-100-0.05-2000-1.0-4",
+                "Config-300-0.15-2000-3.0-4",
             ],
             "config_labels": [
                 "Baseline",
-                "Best (pop-size=300, generations=5000)",
+                "Best\npopulation-size=300\nmutation-rate=0.15\nElitism=3%)",
             ]
         },
     }
@@ -465,7 +656,7 @@ for k in sheet_names_map.keys():
         os.mkdir(CubeConstants.graph_directory_name + k + "/")
     except:
         pass
-    sheet_dicts = sheet_names_map[k]
+    sheet_dicts = sheet_names_map[  k]
     rotation = 0
     if k == "all":
         rotation = 90
@@ -483,7 +674,7 @@ for k in sheet_names_map.keys():
                     values.append(data.loc[i][j])
             fitness_values.append(values)
 
-        plt.figure(figsize=(20, 10))
+        plt.figure(figsize=(20, 15))
         plt.boxplot(fitness_values, showmeans=True)
         plt.xticks([i + 1 for i in range(len(sheet_names))], config_labels, rotation=rotation)
         # plt.xlabel("operator combination")

@@ -50,7 +50,9 @@ for state in range(total_states):
     sides.append(np.reshape([5 for _ in range(n ** 2)], (n, n)))
 
     scramble_size = random.randint(1, max_scramble_size)
-    for scramble in range(scramble_size):
+    scramble_size = state + 12
+    while actual_moves < scramble_size:
+    # for scramble in range(scramble_size):
         cube_parameters = get_a_state_change()
         cube_slice = (cube_parameters[0] * 2) + cube_parameters[1]
         axis = (cube_parameters[2] * 2) + cube_parameters[3]
